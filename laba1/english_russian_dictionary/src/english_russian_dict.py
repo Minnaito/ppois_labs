@@ -1,12 +1,9 @@
 import re
 from typing import Optional, Tuple, List
 import ctypes
-
 from src.dictionary_node import dictionary_node
 
-
 class english_russian_dict:
-
     MAX_WORD_LENGTH = 50
     MAX_TRANSLATION_LENGTH = 200
     ENGLISH_WORD_PATTERN = r'^[a-zA-Z\s\-]+$'
@@ -29,25 +26,19 @@ class english_russian_dict:
 
         if not english_str or not russian_str:
             return False
-
         if len(english_str) > self.MAX_WORD_LENGTH:
             return False
-
         if len(russian_str) > self.MAX_TRANSLATION_LENGTH:
             return False
-
         if not re.match(self.ENGLISH_WORD_PATTERN, english_str):
             return False
-
         if not re.match(self.RUSSIAN_TRANSLATION_PATTERN, russian_str):
             return False
-
         return True
 
     def _compare_words(self, first_word: str, second_word: str) -> int:
         first_normalized = first_word.lower()
         second_normalized = second_word.lower()
-
         if first_normalized < second_normalized:
             return -1
         elif first_normalized > second_normalized:
@@ -60,7 +51,6 @@ class english_russian_dict:
 
         english_str = self._convert_to_string(english_word).strip()
         russian_str = self._convert_to_string(russian_translation).strip()
-
         normalized_english = english_str.lower()
 
         new_node = dictionary_node(normalized_english, russian_str)
@@ -114,16 +104,20 @@ class english_russian_dict:
 
             if node.left_child is None:
                 return node.right_child
-            if node.right_child is None:
+            elif node.right_child is None:
                 return node.left_child
 
             min_node = self._find_min_node(node.right_child)
-
             node.english_word = min_node.english_word
             node.russian_translation = min_node.russian_translation
+            node.right_child = self._remove_min_node(node.right_child)
 
-            node.right_child = self._remove_node(node.right_child, min_node.english_word)
+        return node
 
+    def _remove_min_node(self, node: dictionary_node) -> Optional[dictionary_node]:
+        if node.left_child is None:
+            return node.right_child
+        node.left_child = self._remove_min_node(node.left_child)
         return node
 
     def _find_min_node(self, node: dictionary_node) -> dictionary_node:
@@ -136,7 +130,6 @@ class english_russian_dict:
         english_str = self._convert_to_string(english_word).lower().strip()
         if not english_str:
             return None
-
         return self._search_node(self._root_node, english_str)
 
     def _search_node(self, node: Optional[dictionary_node], english_word: str) -> Optional[str]:
@@ -193,7 +186,6 @@ class english_russian_dict:
     def _process_file_line(self, line: str) -> bool:
         if not line or line.startswith('#'):
             return False
-
         if self.FILE_DELIMITER not in line:
             return False
 
@@ -202,8 +194,6 @@ class english_russian_dict:
             return False
 
         english_word, russian_translation = parts
-
-        # Проверяем что обе части не пустые после strip
         english_clean = english_word.strip()
         russian_clean = russian_translation.strip()
 
@@ -226,7 +216,6 @@ class english_russian_dict:
     def _save_tree_to_file(self, node: Optional[dictionary_node], file):
         if node is None:
             return
-
         self._save_tree_to_file(node.left_child, file)
         file.write(f"{node}\n")
         self._save_tree_to_file(node.right_child, file)
@@ -239,7 +228,6 @@ class english_russian_dict:
     def _collect_words_in_order(self, node: Optional[dictionary_node], word_list: List[Tuple[str, str]]):
         if node is None:
             return
-
         self._collect_words_in_order(node.left_child, word_list)
         word_list.append((node.english_word, node.russian_translation))
         self._collect_words_in_order(node.right_child, word_list)
@@ -250,25 +238,21 @@ class english_russian_dict:
     def is_empty(self) -> bool:
         return self._root_node is None
 
-    # Operator overloads
     def __iadd__(self, word_pair: Tuple[str, str]) -> 'english_russian_dict':
         if not isinstance(word_pair, (tuple, list)) or len(word_pair) != 2:
             raise ValueError("Expected tuple (english_word, russian_translation)")
-
         self.add_word(word_pair[0], word_pair[1])
         return self
 
     def __isub__(self, english_word: str) -> 'english_russian_dict':
         if not isinstance(english_word, str):
             raise ValueError("English word must be a string")
-
         self.remove_word(english_word)
         return self
 
     def __getitem__(self, english_word: str) -> str:
         if not isinstance(english_word, str):
             raise KeyError("English word must be a string")
-
         translation = self.search_translation(english_word)
         if translation is None:
             raise KeyError(f"Word '{english_word}' not found in dictionary")
@@ -277,7 +261,6 @@ class english_russian_dict:
     def __setitem__(self, english_word: str, russian_translation: str):
         if not isinstance(english_word, str) or not isinstance(russian_translation, str):
             raise TypeError("Both arguments must be strings")
-
         if not self.update_translation(english_word, russian_translation):
             raise KeyError(f"Word '{english_word}' not found in dictionary")
 
@@ -294,7 +277,6 @@ class english_russian_dict:
         words = self.display_all_words()
         if not words:
             return "Dictionary is empty"
-
         word_strings = [f"{eng} -> {rus}" for eng, rus in words]
         return "\n".join(word_strings)
 
