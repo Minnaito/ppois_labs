@@ -1,11 +1,7 @@
 # English-Russian Dictionary
-# Total words: 7
+# Total words: 3
 # Format: english_word:russian_translation
 
-apple:яблоко
-cat:кот
 computer:компьютер
-dog:собака
 hello:здравствуйте
 house:дом
-program:программа
