@@ -1,0 +1,20 @@
+# English-Russian Dictionary
+# Total words: 15
+# Format: english_word:russian_translation
+
+apple:яблоко
+book:книга
+car:машина
+cat:кот
+computer:компьютер
+dog:собака
+friend:друг
+hello:привет
+house:дом
+moon:луна
+program:программа
+school:школа
+sun:солнце
+time:время
+tree:дерево
+water:вода
