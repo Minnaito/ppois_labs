@@ -64,7 +64,7 @@ def evaluate_polynomial_interactive(polynomials_list):
 
         input_value = float(input("Введите значение x: "))
         selected_polynomial = polynomials_list[polynomial_index]
-        result_value = selected_polynomial(input_value)  # Используется оператор ()
+        result_value = selected_polynomial(input_value)  
 
         print(f"P({input_value}) = {result_value}")
 
@@ -120,7 +120,7 @@ def add_polynomials_interactive(polynomials_list):
 
         first_polynomial = polynomials_list[first_index]
         second_polynomial = polynomials_list[second_index]
-        result_polynomial = first_polynomial + second_polynomial  # Оператор + создает новый объект
+        result_polynomial = first_polynomial + second_polynomial 
 
         print(f"({first_polynomial}) + ({second_polynomial}) = {result_polynomial}")
         polynomials_list.append(result_polynomial)
@@ -356,8 +356,8 @@ def demo_operators():
     print("ДЕМОНСТРАЦИЯ РАБОТЫ ВСЕХ ОПЕРАТОРОВ")
     print("=" * 50)
 
-    first_polynomial = polynomial([2, -3, 1])  # 2x² - 3x + 1
-    second_polynomial = polynomial([1, -1])     # x - 1
+    first_polynomial = polynomial([2, -3, 1]) 
+    second_polynomial = polynomial([1, -1])     
 
     print("1. Исходные многочлены:")
     print(f"   P1 = {first_polynomial}")
