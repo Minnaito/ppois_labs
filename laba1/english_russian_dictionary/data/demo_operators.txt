@@ -1,7 +1,0 @@
-# English-Russian Dictionary
-# Total words: 3
-# Format: english_word:russian_translation
-
-computer:компьютер
-hello:здравствуйте
-house:дом
