@@ -1,4 +1,4 @@
-class constants:
+class Constants:
     DEFAULT_COEFFICIENT = 0
     DEFAULT_COEFFICIENTS = [0]
 
