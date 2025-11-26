@@ -10,57 +10,57 @@ class TestEnglishRussianDict(unittest.TestCase):
     def setUp(self):
         self.dictionary = EnglishRussianDict()
 
-    def testInitialDictionaryIsEmpty(self):
+    def test_initial_dictionary_is_empty(self):
         self.assertEqual(len(self.dictionary), 0)
-        self.assertTrue(self.dictionary.isEmpty())
+        self.assertTrue(self.dictionary.is_empty())
 
-    def testAddWordSuccessfully(self):
-        result = self.dictionary.addWord("hello", "привет")
+    def test_add_word_successfully(self):
+        result = self.dictionary.add_word("hello", "привет")
         self.assertTrue(result)
         self.assertEqual(len(self.dictionary), 1)
-        self.assertFalse(self.dictionary.isEmpty())
+        self.assertFalse(self.dictionary.is_empty())
 
-    def testAddDuplicateWordFails(self):
-        self.dictionary.addWord("hello", "привет")
-        result = self.dictionary.addWord("hello", "здравствуйте")
+    def test_add_duplicate_word_fails(self):
+        self.dictionary.add_word("hello", "привет")
+        result = self.dictionary.add_word("hello", "здравствуйте")
         self.assertFalse(result)
         self.assertEqual(len(self.dictionary), 1)
 
-    def testSearchExistingWord(self):
-        self.dictionary.addWord("hello", "привет")
-        translation = self.dictionary.searchTranslation("hello")
+    def test_search_existing_word(self):
+        self.dictionary.add_word("hello", "привет")
+        translation = self.dictionary.search_translation("hello")
         self.assertEqual(translation, "привет")
 
-    def testSearchNonexistentWord(self):
-        translation = self.dictionary.searchTranslation("nonexistent")
+    def test_search_nonexistent_word(self):
+        translation = self.dictionary.search_translation("nonexistent")
         self.assertIsNone(translation)
 
-    def testRemoveExistingWord(self):
-        self.dictionary.addWord("hello", "привет")
-        result = self.dictionary.removeWord("hello")
+    def test_remove_existing_word(self):
+        self.dictionary.add_word("hello", "привет")
+        result = self.dictionary.remove_word("hello")
         self.assertTrue(result)
         self.assertEqual(len(self.dictionary), 0)
 
-    def testRemoveNonexistentWord(self):
-        result = self.dictionary.removeWord("nonexistent")
+    def test_remove_nonexistent_word(self):
+        result = self.dictionary.remove_word("nonexistent")
         self.assertFalse(result)
 
-    def testUpdateExistingTranslation(self):
-        self.dictionary.addWord("hello", "привет")
-        result = self.dictionary.updateTranslation("hello", "здравствуйте")
+    def test_update_existing_translation(self):
+        self.dictionary.add_word("hello", "привет")
+        result = self.dictionary.update_translation("hello", "здравствуйте")
         self.assertTrue(result)
-        self.assertEqual(self.dictionary.searchTranslation("hello"), "здравствуйте")
+        self.assertEqual(self.dictionary.search_translation("hello"), "здравствуйте")
 
-    def testUpdateNonexistentWord(self):
-        result = self.dictionary.updateTranslation("nonexistent", "перевод")
+    def test_update_nonexistent_word(self):
+        result = self.dictionary.update_translation("nonexistent", "перевод")
         self.assertFalse(result)
 
-    def testCaseInsensitiveOperations(self):
-        self.dictionary.addWord("Hello", "привет")
-        self.assertEqual(self.dictionary.searchTranslation("HELLO"), "привет")
-        self.assertTrue(self.dictionary.removeWord("hello"))
+    def test_case_insensitive_operations(self):
+        self.dictionary.add_word("Hello", "привет")
+        self.assertEqual(self.dictionary.search_translation("HELLO"), "привет")
+        self.assertTrue(self.dictionary.remove_word("hello"))
 
-    def testOperatorOverloads(self):
+    def test_operator_overloads(self):
         # Test += operator
         self.dictionary += ("hello", "привет")
         self.assertEqual(self.dictionary["hello"], "привет")
@@ -71,66 +71,66 @@ class TestEnglishRussianDict(unittest.TestCase):
             _ = self.dictionary["hello"]
 
         # Test [] operator for update
-        self.dictionary.addWord("test", "тест")
+        self.dictionary.add_word("test", "тест")
         self.dictionary["test"] = "проверка"
         self.assertEqual(self.dictionary["test"], "проверка")
 
         # Test in operator
-        self.dictionary.addWord("word", "слово")
+        self.dictionary.add_word("word", "слово")
         self.assertTrue("word" in self.dictionary)
         self.assertFalse("nonexistent" in self.dictionary)
 
-    def testCStyleStringsSupport(self):
-        cEnglish = ctypes.c_char_p(b"hello")
-        cRussian = ctypes.c_char_p("привет".encode('utf-8'))
+    def test_c_style_strings_support(self):
+        c_english = ctypes.c_char_p(b"hello")
+        c_russian = ctypes.c_char_p("привет".encode('utf-8'))
 
-        result = self.dictionary.addWord(cEnglish, cRussian)
+        result = self.dictionary.add_word(c_english, c_russian)
         self.assertTrue(result)
-        self.assertEqual(self.dictionary.searchTranslation(cEnglish), "привет")
+        self.assertEqual(self.dictionary.search_translation(c_english), "привет")
 
-    def testFileOperations(self):
-        testWords = [
+    def test_file_operations(self):
+        test_words = [
             ("apple", "яблоко"),
             ("book", "книга"),
             ("cat", "кот")
         ]
 
-        for english, russian in testWords:
-            self.dictionary.addWord(english, russian)
+        for english, russian in test_words:
+            self.dictionary.add_word(english, russian)
 
-        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.txt') as tempFile:
-            tempPath = tempFile.name
+        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.txt') as temp_file:
+            temp_path = temp_file.name
 
         try:
             # Test save
-            saveResult = self.dictionary.saveToFile(tempPath)
-            self.assertTrue(saveResult)
+            save_result = self.dictionary.save_to_file(temp_path)
+            self.assertTrue(save_result)
 
             # Test load
-            newDict = EnglishRussianDict()
-            loadResult = newDict.loadFromFile(tempPath)
-            self.assertTrue(loadResult)
+            new_dict = EnglishRussianDict()
+            load_result = new_dict.load_from_file(temp_path)
+            self.assertTrue(load_result)
 
-            self.assertEqual(len(newDict), len(testWords))
-            for english, russian in testWords:
-                self.assertEqual(newDict.searchTranslation(english), russian)
+            self.assertEqual(len(new_dict), len(test_words))
+            for english, russian in test_words:
+                self.assertEqual(new_dict.search_translation(english), russian)
 
         finally:
-            if os.path.exists(tempPath):
-                os.unlink(tempPath)
+            if os.path.exists(temp_path):
+                os.unlink(temp_path)
 
-    def testValidationEmptyWords(self):
-        result = self.dictionary.addWord("", "привет")
+    def test_validation_empty_words(self):
+        result = self.dictionary.add_word("", "привет")
         self.assertFalse(result)
 
-        result = self.dictionary.addWord("hello", "")
+        result = self.dictionary.add_word("hello", "")
         self.assertFalse(result)
 
-    def testValidationInvalidCharacters(self):
-        result = self.dictionary.addWord("hello123", "привет")
+    def test_validation_invalid_characters(self):
+        result = self.dictionary.add_word("hello123", "привет")
         self.assertFalse(result)
 
-        result = self.dictionary.addWord("hello", "privet")
+        result = self.dictionary.add_word("hello", "privet")
         self.assertFalse(result)
 
 
