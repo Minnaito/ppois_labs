@@ -12,178 +12,178 @@ class EnglishRussianDict:
     FILE_ENCODING = 'utf-8'
 
     def __init__(self):
-        self._root_node = None
-        self._word_count = 0
+        self._rootNode = None
+        self._wordCount = 0
 
-    def _convert_to_string(self, text) -> str:
+    def _convertToString(self, text) -> str:
         if isinstance(text, ctypes.c_char_p):
             return text.value.decode('utf-8') if text.value else ""
         return str(text)
 
-    def _validate_word_input(self, english_word, russian_translation) -> bool:
-        english_str = self._convert_to_string(english_word).strip()
-        russian_str = self._convert_to_string(russian_translation).strip()
+    def _validateWordInput(self, englishWord, russianTranslation) -> bool:
+        englishStr = self._convertToString(englishWord).strip()
+        russianStr = self._convertToString(russianTranslation).strip()
 
-        if not english_str or not russian_str:
+        if not englishStr or not russianStr:
             return False
-        if len(english_str) > self.MAX_WORD_LENGTH:
+        if len(englishStr) > self.MAX_WORD_LENGTH:
             return False
-        if len(russian_str) > self.MAX_TRANSLATION_LENGTH:
+        if len(russianStr) > self.MAX_TRANSLATION_LENGTH:
             return False
-        if not re.match(self.ENGLISH_WORD_PATTERN, english_str):
+        if not re.match(self.ENGLISH_WORD_PATTERN, englishStr):
             return False
-        if not re.match(self.RUSSIAN_TRANSLATION_PATTERN, russian_str):
+        if not re.match(self.RUSSIAN_TRANSLATION_PATTERN, russianStr):
             return False
         return True
 
-    def _compare_words(self, first_word: str, second_word: str) -> int:
-        first_normalized = first_word.lower()
-        second_normalized = second_word.lower()
-        if first_normalized < second_normalized:
+    def _compareWords(self, firstWord: str, secondWord: str) -> int:
+        firstNormalized = firstWord.lower()
+        secondNormalized = secondWord.lower()
+        if firstNormalized < secondNormalized:
             return -1
-        elif first_normalized > second_normalized:
+        elif firstNormalized > secondNormalized:
             return 1
         return 0
 
-    def add_word(self, english_word, russian_translation) -> bool:
-        if not self._validate_word_input(english_word, russian_translation):
+    def addWord(self, englishWord, russianTranslation) -> bool:
+        if not self._validateWordInput(englishWord, russianTranslation):
             return False
 
-        english_str = self._convert_to_string(english_word).strip()
-        russian_str = self._convert_to_string(russian_translation).strip()
-        normalized_english = english_str.lower()
+        englishStr = self._convertToString(englishWord).strip()
+        russianStr = self._convertToString(russianTranslation).strip()
+        normalizedEnglish = englishStr.lower()
 
-        new_node = DictionaryNode(normalized_english, russian_str)
+        newNode = DictionaryNode(normalizedEnglish, russianStr)
 
-        if self._root_node is None:
-            self._root_node = new_node
-            self._word_count += 1
+        if self._rootNode is None:
+            self._rootNode = newNode
+            self._wordCount += 1
             return True
 
-        return self._insert_node(self._root_node, new_node)
+        return self._insertNode(self._rootNode, newNode)
 
-    def _insert_node(self, current_node: DictionaryNode, new_node: DictionaryNode) -> bool:
-        comparison_result = self._compare_words(new_node.english_word, current_node.english_word)
+    def _insertNode(self, currentNode: DictionaryNode, newNode: DictionaryNode) -> bool:
+        comparisonResult = self._compareWords(newNode.englishWord, currentNode.englishWord)
 
-        if comparison_result == 0:
+        if comparisonResult == 0:
             return False
-        elif comparison_result < 0:
-            if current_node.left_child is None:
-                current_node.left_child = new_node
-                self._word_count += 1
+        elif comparisonResult < 0:
+            if currentNode.leftChild is None:
+                currentNode.leftChild = newNode
+                self._wordCount += 1
                 return True
-            return self._insert_node(current_node.left_child, new_node)
+            return self._insertNode(currentNode.leftChild, newNode)
         else:
-            if current_node.right_child is None:
-                current_node.right_child = new_node
-                self._word_count += 1
+            if currentNode.rightChild is None:
+                currentNode.rightChild = newNode
+                self._wordCount += 1
                 return True
-            return self._insert_node(current_node.right_child, new_node)
+            return self._insertNode(currentNode.rightChild, newNode)
 
-    def remove_word(self, english_word) -> bool:
-        english_str = self._convert_to_string(english_word).lower().strip()
-        if not english_str:
+    def removeWord(self, englishWord) -> bool:
+        englishStr = self._convertToString(englishWord).lower().strip()
+        if not englishStr:
             return False
 
-        initial_count = self._word_count
-        self._root_node = self._remove_node(self._root_node, english_str)
-        return self._word_count < initial_count
+        initialCount = self._wordCount
+        self._rootNode = self._removeNode(self._rootNode, englishStr)
+        return self._wordCount < initialCount
 
-    def _remove_node(self, node: Optional[DictionaryNode], english_word: str) -> Optional[DictionaryNode]:
+    def _removeNode(self, node: Optional[DictionaryNode], englishWord: str) -> Optional[DictionaryNode]:
         if node is None:
             return None
 
-        comparison_result = self._compare_words(english_word, node.english_word)
+        comparisonResult = self._compareWords(englishWord, node.englishWord)
 
-        if comparison_result < 0:
-            node.left_child = self._remove_node(node.left_child, english_word)
-        elif comparison_result > 0:
-            node.right_child = self._remove_node(node.right_child, english_word)
+        if comparisonResult < 0:
+            node.leftChild = self._removeNode(node.leftChild, englishWord)
+        elif comparisonResult > 0:
+            node.rightChild = self._removeNode(node.rightChild, englishWord)
         else:
-            self._word_count -= 1
+            self._wordCount -= 1
 
-            if node.left_child is None:
-                return node.right_child
-            elif node.right_child is None:
-                return node.left_child
+            if node.leftChild is None:
+                return node.rightChild
+            elif node.rightChild is None:
+                return node.leftChild
 
-            min_node = self._find_min_node(node.right_child)
-            node.english_word = min_node.english_word
-            node.russian_translation = min_node.russian_translation
-            node.right_child = self._remove_min_node(node.right_child)
+            minNode = self._findMinNode(node.rightChild)
+            node.englishWord = minNode.englishWord
+            node.russianTranslation = minNode.russianTranslation
+            node.rightChild = self._removeMinNode(node.rightChild)
 
         return node
 
-    def _remove_min_node(self, node: DictionaryNode) -> Optional[DictionaryNode]:
-        if node.left_child is None:
-            return node.right_child
-        node.left_child = self._remove_min_node(node.left_child)
+    def _removeMinNode(self, node: DictionaryNode) -> Optional[DictionaryNode]:
+        if node.leftChild is None:
+            return node.rightChild
+        node.leftChild = self._removeMinNode(node.leftChild)
         return node
 
-    def _find_min_node(self, node: DictionaryNode) -> DictionaryNode:
+    def _findMinNode(self, node: DictionaryNode) -> DictionaryNode:
         current = node
-        while current.left_child is not None:
-            current = current.left_child
+        while current.leftChild is not None:
+            current = current.leftChild
         return current
 
-    def search_translation(self, english_word) -> Optional[str]:
-        english_str = self._convert_to_string(english_word).lower().strip()
-        if not english_str:
+    def searchTranslation(self, englishWord) -> Optional[str]:
+        englishStr = self._convertToString(englishWord).lower().strip()
+        if not englishStr:
             return None
-        return self._search_node(self._root_node, english_str)
+        return self._searchNode(self._rootNode, englishStr)
 
-    def _search_node(self, node: Optional[DictionaryNode], english_word: str) -> Optional[str]:
+    def _searchNode(self, node: Optional[DictionaryNode], englishWord: str) -> Optional[str]:
         if node is None:
             return None
 
-        comparison_result = self._compare_words(english_word, node.english_word)
+        comparisonResult = self._compareWords(englishWord, node.englishWord)
 
-        if comparison_result == 0:
-            return node.russian_translation
-        elif comparison_result < 0:
-            return self._search_node(node.left_child, english_word)
+        if comparisonResult == 0:
+            return node.russianTranslation
+        elif comparisonResult < 0:
+            return self._searchNode(node.leftChild, englishWord)
         else:
-            return self._search_node(node.right_child, english_word)
+            return self._searchNode(node.rightChild, englishWord)
 
-    def update_translation(self, english_word, new_russian_translation) -> bool:
-        if not self._validate_word_input(english_word, new_russian_translation):
+    def updateTranslation(self, englishWord, newRussianTranslation) -> bool:
+        if not self._validateWordInput(englishWord, newRussianTranslation):
             return False
 
-        english_str = self._convert_to_string(english_word).lower().strip()
-        new_russian_str = self._convert_to_string(new_russian_translation).strip()
+        englishStr = self._convertToString(englishWord).lower().strip()
+        newRussianStr = self._convertToString(newRussianTranslation).strip()
 
-        node = self._find_node(self._root_node, english_str)
+        node = self._findNode(self._rootNode, englishStr)
         if node is None:
             return False
 
-        node.russian_translation = new_russian_str
+        node.russianTranslation = newRussianStr
         return True
 
-    def _find_node(self, node: Optional[DictionaryNode], english_word: str) -> Optional[DictionaryNode]:
+    def _findNode(self, node: Optional[DictionaryNode], englishWord: str) -> Optional[DictionaryNode]:
         if node is None:
             return None
 
-        comparison_result = self._compare_words(english_word, node.english_word)
+        comparisonResult = self._compareWords(englishWord, node.englishWord)
 
-        if comparison_result == 0:
+        if comparisonResult == 0:
             return node
-        elif comparison_result < 0:
-            return self._find_node(node.left_child, english_word)
+        elif comparisonResult < 0:
+            return self._findNode(node.leftChild, englishWord)
         else:
-            return self._find_node(node.right_child, english_word)
+            return self._findNode(node.rightChild, englishWord)
 
-    def load_from_file(self, file_path: str) -> bool:
+    def loadFromFile(self, filePath: str) -> bool:
         try:
-            with open(file_path, 'r', encoding=self.FILE_ENCODING) as file:
-                success_count = 0
-                for line_number, line in enumerate(file, 1):
-                    if self._process_file_line(line.strip()):
-                        success_count += 1
-                return success_count > 0
+            with open(filePath, 'r', encoding=self.FILE_ENCODING) as file:
+                successCount = 0
+                for lineNumber, line in enumerate(file, 1):
+                    if self._processFileLine(line.strip()):
+                        successCount += 1
+                return successCount > 0
         except (FileNotFoundError, PermissionError, UnicodeDecodeError):
             return False
 
-    def _process_file_line(self, line: str) -> bool:
+    def _processFileLine(self, line: str) -> bool:
         if not line or line.startswith('#'):
             return False
         if self.FILE_DELIMITER not in line:
@@ -193,92 +193,92 @@ class EnglishRussianDict:
         if len(parts) != 2:
             return False
 
-        english_word, russian_translation = parts
-        english_clean = english_word.strip()
-        russian_clean = russian_translation.strip()
+        englishWord, russianTranslation = parts
+        englishClean = englishWord.strip()
+        russianClean = russianTranslation.strip()
 
-        if not english_clean or not russian_clean:
+        if not englishClean or not russianClean:
             return False
 
-        return self.add_word(english_clean, russian_clean)
+        return self.addWord(englishClean, russianClean)
 
-    def save_to_file(self, file_path: str) -> bool:
+    def saveToFile(self, filePath: str) -> bool:
         try:
-            with open(file_path, 'w', encoding=self.FILE_ENCODING) as file:
+            with open(filePath, 'w', encoding=self.FILE_ENCODING) as file:
                 file.write("# English-Russian Dictionary\n")
-                file.write(f"# Total words: {self._word_count}\n")
+                file.write(f"# Total words: {self._wordCount}\n")
                 file.write(f"# Format: english_word{self.FILE_DELIMITER}russian_translation\n\n")
-                self._save_tree_to_file(self._root_node, file)
+                self._saveTreeToFile(self._rootNode, file)
             return True
         except (PermissionError, OSError):
             return False
 
-    def _save_tree_to_file(self, node: Optional[DictionaryNode], file):
+    def _saveTreeToFile(self, node: Optional[DictionaryNode], file):
         if node is None:
             return
-        self._save_tree_to_file(node.left_child, file)
+        self._saveTreeToFile(node.leftChild, file)
         file.write(f"{node}\n")
-        self._save_tree_to_file(node.right_child, file)
+        self._saveTreeToFile(node.rightChild, file)
 
-    def display_all_words(self) -> List[Tuple[str, str]]:
-        word_list = []
-        self._collect_words_in_order(self._root_node, word_list)
-        return word_list
+    def displayAllWords(self) -> List[Tuple[str, str]]:
+        wordList = []
+        self._collectWordsInOrder(self._rootNode, wordList)
+        return wordList
 
-    def _collect_words_in_order(self, node: Optional[DictionaryNode], word_list: List[Tuple[str, str]]):
+    def _collectWordsInOrder(self, node: Optional[DictionaryNode], wordList: List[Tuple[str, str]]):
         if node is None:
             return
-        self._collect_words_in_order(node.left_child, word_list)
-        word_list.append((node.english_word, node.russian_translation))
-        self._collect_words_in_order(node.right_child, word_list)
+        self._collectWordsInOrder(node.leftChild, wordList)
+        wordList.append((node.englishWord, node.russianTranslation))
+        self._collectWordsInOrder(node.rightChild, wordList)
 
-    def get_word_count(self) -> int:
-        return self._word_count
+    def getWordCount(self) -> int:
+        return self._wordCount
 
-    def is_empty(self) -> bool:
-        return self._root_node is None
+    def isEmpty(self) -> bool:
+        return self._rootNode is None
 
-    def __iadd__(self, word_pair: Tuple[str, str]) -> 'EnglishRussianDict':
-        if not isinstance(word_pair, (tuple, list)) or len(word_pair) != 2:
-            raise ValueError("Expected tuple (english_word, russian_translation)")
-        self.add_word(word_pair[0], word_pair[1])
+    def __iadd__(self, wordPair: Tuple[str, str]) -> 'EnglishRussianDict':
+        if not isinstance(wordPair, (tuple, list)) or len(wordPair) != 2:
+            raise ValueError("Expected tuple (englishWord, russianTranslation)")
+        self.addWord(wordPair[0], wordPair[1])
         return self
 
-    def __isub__(self, english_word: str) -> 'EnglishRussianDict':
-        if not isinstance(english_word, str):
+    def __isub__(self, englishWord: str) -> 'EnglishRussianDict':
+        if not isinstance(englishWord, str):
             raise ValueError("English word must be a string")
-        self.remove_word(english_word)
+        self.removeWord(englishWord)
         return self
 
-    def __getitem__(self, english_word: str) -> str:
-        if not isinstance(english_word, str):
+    def __getitem__(self, englishWord: str) -> str:
+        if not isinstance(englishWord, str):
             raise KeyError("English word must be a string")
-        translation = self.search_translation(english_word)
+        translation = self.searchTranslation(englishWord)
         if translation is None:
-            raise KeyError(f"Word '{english_word}' not found in dictionary")
+            raise KeyError(f"Word '{englishWord}' not found in dictionary")
         return translation
 
-    def __setitem__(self, english_word: str, russian_translation: str):
-        if not isinstance(english_word, str) or not isinstance(russian_translation, str):
+    def __setitem__(self, englishWord: str, russianTranslation: str):
+        if not isinstance(englishWord, str) or not isinstance(russianTranslation, str):
             raise TypeError("Both arguments must be strings")
-        if not self.update_translation(english_word, russian_translation):
-            raise KeyError(f"Word '{english_word}' not found in dictionary")
+        if not self.updateTranslation(englishWord, russianTranslation):
+            raise KeyError(f"Word '{englishWord}' not found in dictionary")
 
-    def __contains__(self, english_word: str) -> bool:
-        return self.search_translation(english_word) is not None
+    def __contains__(self, englishWord: str) -> bool:
+        return self.searchTranslation(englishWord) is not None
 
     def __len__(self) -> int:
-        return self._word_count
+        return self._wordCount
 
     def __bool__(self) -> bool:
-        return not self.is_empty()
+        return not self.isEmpty()
 
     def __str__(self) -> str:
-        words = self.display_all_words()
+        words = self.displayAllWords()
         if not words:
             return "Dictionary is empty"
-        word_strings = [f"{eng} -> {rus}" for eng, rus in words]
-        return "\n".join(word_strings)
+        wordStrings = [f"{eng} -> {rus}" for eng, rus in words]
+        return "\n".join(wordStrings)
 
     def __repr__(self) -> str:
-        return f"english_russian_dict(words={self._word_count})"
+        return f"EnglishRussianDict(words={self._wordCount})"
