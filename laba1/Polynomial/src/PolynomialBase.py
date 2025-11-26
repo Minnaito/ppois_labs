@@ -4,7 +4,6 @@ from .Constants import Constants
 class PolynomialBase:
 
     def __init__(self, coefficients=None):
-
         self._constants = Constants()
 
         if coefficients is None:
@@ -16,17 +15,17 @@ class PolynomialBase:
         if not isinstance(coefficients, list):
             raise TypeError(self._constants.ERROR_INVALID_COEFFICIENTS)
 
-        self._coefficients = self._remove_leading_zeros(coefficients)
+        self._coefficients = self._removeLeadingZeros(coefficients)
         self._degree = len(self._coefficients) - self._constants.MIN_LENGTH
 
-    def _remove_leading_zeros(self, coefficients):
-        coefficients_copy = coefficients.copy()
+    def _removeLeadingZeros(self, coefficients):
+        coefficientsCopy = coefficients.copy()
 
-        while (len(coefficients_copy) > self._constants.MIN_LENGTH and
-               abs(coefficients_copy[self._constants.START_INDEX]) < self._constants.ZERO_THRESHOLD):
-            coefficients_copy.pop(self._constants.START_INDEX)
+        while (len(coefficientsCopy) > self._constants.MIN_LENGTH and
+               abs(coefficientsCopy[self._constants.START_INDEX]) < self._constants.ZERO_THRESHOLD):
+            coefficientsCopy.pop(self._constants.START_INDEX)
 
-        return coefficients_copy
+        return coefficientsCopy
 
     @property
     def coefficients(self):
@@ -41,38 +40,38 @@ class PolynomialBase:
             return float(self._constants.DEFAULT_COEFFICIENT)
         return self._coefficients[index]
 
-    def __call__(self, input_value):
-        result_value = float(self._constants.DEFAULT_COEFFICIENT)
+    def __call__(self, inputValue):
+        resultValue = float(self._constants.DEFAULT_COEFFICIENT)
         for coefficient in self._coefficients:
-            result_value = result_value * input_value + coefficient
-        return result_value
+            resultValue = resultValue * inputValue + coefficient
+        return resultValue
 
     def __str__(self):
         if self._degree == self._constants.DEFAULT_COEFFICIENT:
             return str(self._coefficients[self._constants.START_INDEX])
 
-        terms_list = []
+        termsList = []
         for index, coefficient in enumerate(self._coefficients):
             if abs(coefficient) < self._constants.ZERO_THRESHOLD:
                 continue
 
-            power_value = self._degree - index
+            powerValue = self._degree - index
 
-            if power_value == self._constants.DEFAULT_COEFFICIENT:
-                term_string = f"{coefficient:+g}"
-            elif power_value == self._constants.MIN_LENGTH:
-                term_string = f"{coefficient:+g}x"
+            if powerValue == self._constants.DEFAULT_COEFFICIENT:
+                termString = f"{coefficient:+g}"
+            elif powerValue == self._constants.MIN_LENGTH:
+                termString = f"{coefficient:+g}x"
             else:
-                term_string = f"{coefficient:+g}x^{power_value}"
+                termString = f"{coefficient:+g}x^{powerValue}"
 
-            if not terms_list and term_string.startswith('+'):
-                term_string = term_string[self._constants.MIN_LENGTH:]
-            terms_list.append(term_string)
+            if not termsList and termString.startswith('+'):
+                termString = termString[self._constants.MIN_LENGTH:]
+            termsList.append(termString)
 
-        return ' '.join(terms_list) if terms_list else str(self._constants.DEFAULT_COEFFICIENT)
+        return ' '.join(termsList) if termsList else str(self._constants.DEFAULT_COEFFICIENT)
 
     def __repr__(self):
-        return f"polynomial_base({self._coefficients})"
+        return f"PolynomialBase({self._coefficients})"
 
     def copy(self):
         return self.__class__(self._coefficients.copy())
