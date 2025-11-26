@@ -9,81 +9,81 @@ from src.Polynomial import Polynomial
 
 class TestPolynomial(unittest.TestCase):
 
-    def testAddition(self):
+    def test_addition(self):
         """Тест сложения многочленов."""
-        polynomialFirst = Polynomial([2, -3, 1])
-        polynomialSecond = Polynomial([1, 2])
-        resultPolynomial = polynomialFirst + polynomialSecond
-        self.assertEqual(resultPolynomial.coefficients, [2, -2, 3])
+        polynomial_first = Polynomial([2, -3, 1])
+        polynomial_second = Polynomial([1, 2])
+        result_polynomial = polynomial_first + polynomial_second
+        self.assertEqual(result_polynomial.coefficients, [2, -2, 3])
 
-    def testSubtraction(self):
+    def test_subtraction(self):
         """Тест вычитания многочленов."""
-        polynomialFirst = Polynomial([2, -3, 1])
-        polynomialSecond = Polynomial([1, 2])
-        resultPolynomial = polynomialFirst - polynomialSecond
-        self.assertEqual(resultPolynomial.coefficients, [2, -4, -1])
+        polynomial_first = Polynomial([2, -3, 1])
+        polynomial_second = Polynomial([1, 2])
+        result_polynomial = polynomial_first - polynomial_second
+        self.assertEqual(result_polynomial.coefficients, [2, -4, -1])
 
-    def testMultiplication(self):
+    def test_multiplication(self):
         """Тест умножения многочленов."""
-        polynomialFirst = Polynomial([2, 1])
-        polynomialSecond = Polynomial([3, 2])
-        resultPolynomial = polynomialFirst * polynomialSecond
-        self.assertEqual(resultPolynomial.coefficients, [6, 7, 2])
+        polynomial_first = Polynomial([2, 1])
+        polynomial_second = Polynomial([3, 2])
+        result_polynomial = polynomial_first * polynomial_second
+        self.assertEqual(result_polynomial.coefficients, [6, 7, 2])
 
-    def testDivision(self):
+    def test_division(self):
         """Тест деления многочленов."""
-        polynomialFirst = Polynomial([2, -3, 1])
-        polynomialSecond = Polynomial([1, -1])
-        resultPolynomial = polynomialFirst / polynomialSecond
-        self.assertEqual(resultPolynomial.coefficients, [2, -1])
+        polynomial_first =Polynomial([2, -3, 1])
+        polynomial_second = Polynomial([1, -1])
+        result_polynomial = polynomial_first / polynomial_second
+        self.assertEqual(result_polynomial.coefficients, [2, -1])
 
-    def testInplaceAddition(self):
+    def test_inplace_addition(self):
         """Тест сложения с присваиванием."""
-        polynomialFirst = Polynomial([2, -3, 1])
-        polynomialSecond = Polynomial([1, 2])
-        originalIdValue = id(polynomialFirst)
+        polynomial_first = Polynomial([2, -3, 1])
+        polynomial_second = Polynomial([1, 2])
+        original_id_value = id(polynomial_first)
 
-        polynomialFirst += polynomialSecond
-        self.assertEqual(polynomialFirst.coefficients, [2, -2, 3])
-        self.assertEqual(id(polynomialFirst), originalIdValue)
+        polynomial_first += polynomial_second
+        self.assertEqual(polynomial_first.coefficients, [2, -2, 3])
+        self.assertEqual(id(polynomial_first), original_id_value)
 
-    def testInplaceSubtraction(self):
+    def test_inplace_subtraction(self):
         """Тест вычитания с присваиванием."""
-        polynomialFirst = Polynomial([2, -3, 1])
-        polynomialSecond = Polynomial([1, 2])
-        originalIdValue = id(polynomialFirst)
+        polynomial_first = Polynomial([2, -3, 1])
+        polynomial_second = Polynomial([1, 2])
+        original_id_value = id(polynomial_first)
 
-        polynomialFirst -= polynomialSecond
-        self.assertEqual(polynomialFirst.coefficients, [2, -4, -1])
-        self.assertEqual(id(polynomialFirst), originalIdValue)
+        polynomial_first -= polynomial_second
+        self.assertEqual(polynomial_first.coefficients, [2, -4, -1])
+        self.assertEqual(id(polynomial_first), original_id_value)
 
-    def testInplaceMultiplication(self):
+    def test_inplace_multiplication(self):
         """Тест умножения с присваиванием."""
-        polynomialFirst = Polynomial([2, 1])
-        polynomialSecond = Polynomial([3, 2])
-        originalIdValue = id(polynomialFirst)
+        polynomial_first = Polynomial([2, 1])
+        polynomial_second = Polynomial([3, 2])
+        original_id_value = id(polynomial_first)
 
-        polynomialFirst *= polynomialSecond
-        self.assertEqual(polynomialFirst.coefficients, [6, 7, 2])
-        self.assertEqual(id(polynomialFirst), originalIdValue)
+        polynomial_first *= polynomial_second
+        self.assertEqual(polynomial_first.coefficients, [6, 7, 2])
+        self.assertEqual(id(polynomial_first), original_id_value)
 
-    def testDivisionByZero(self):
+    def test_division_by_zero(self):
         """Тест деления на ноль."""
-        testPolynomial = Polynomial([1, 2, 3])
+        test_polynomial = polynomial([1, 2, 3])
         with self.assertRaises(ZeroDivisionError):
-            testPolynomial / 0
+            test_polynomial / 0
 
-    def testAdditionWithScalar(self):
+    def test_addition_with_scalar(self):
         """Тест сложения со скаляром."""
-        polynomialFirst = Polynomial([2, -3, 1])
-        resultPolynomial = polynomialFirst + 5
-        self.assertEqual(resultPolynomial.coefficients, [2, -3, 6])
+        polynomial_first = polynomial([2, -3, 1])
+        result_polynomial = polynomial_first + 5
+        self.assertEqual(result_polynomial.coefficients, [2, -3, 6])
 
-    def testMultiplicationWithScalar(self):
+    def test_multiplication_with_scalar(self):
         """Тест умножения на скаляр."""
-        polynomialFirst = Polynomial([2, -3, 1])
-        resultPolynomial = polynomialFirst * 3
-        self.assertEqual(resultPolynomial.coefficients, [6, -9, 3])
+        polynomial_first = polynomial([2, -3, 1])
+        result_polynomial = polynomial_first * 3
+        self.assertEqual(result_polynomial.coefficients, [6, -9, 3])
 
 
 if __name__ == '__main__':
