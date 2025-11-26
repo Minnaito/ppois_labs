@@ -3,47 +3,47 @@ from src.DictionaryNode import DictionaryNode
 
 class TestDictionaryNode(unittest.TestCase):
 
-    def testNodeCreation(self):
+    def test_node_creation(self):
         node = DictionaryNode("hello", "привет")
 
-        self.assertEqual(node.englishWord, "hello")
-        self.assertEqual(node.russianTranslation, "привет")
-        self.assertIsNone(node.leftChild)
-        self.assertIsNone(node.rightChild)
+        self.assertEqual(node.english_word, "hello")
+        self.assertEqual(node.russian_translation, "привет")
+        self.assertIsNone(node.left_child)
+        self.assertIsNone(node.right_child)
 
-    def testNodeStringRepresentation(self):
+    def test_node_string_representation(self):
         node = DictionaryNode("test", "тест")
-        expectedString = "test:тест"
+        expected_string = "test:тест"
 
-        self.assertEqual(str(node), expectedString)
+        self.assertEqual(str(node), expected_string)
 
-    def testNodeReprRepresentation(self):
+    def test_node_repr_representation(self):
         node = DictionaryNode("sample", "пример")
-        expectedRepr = "DictionaryNode('sample', 'пример')"
+        expected_repr = "DictionaryNode('sample', 'пример')"
 
-        self.assertEqual(repr(node), expectedRepr)
+        self.assertEqual(repr(node), expected_repr)
 
-    def testNodeWithChildren(self):
+    def test_node_with_children(self):
         parent = DictionaryNode("parent", "родитель")
-        leftChild = DictionaryNode("left", "левый")
-        rightChild = DictionaryNode("right", "правый")
+        left_child = DictionaryNode("left", "левый")
+        right_child = DictionaryNode("right", "правый")
 
-        parent.leftChild = leftChild
-        parent.rightChild = rightChild
+        parent.left_child = left_child
+        parent.right_child = right_child
 
-        self.assertEqual(parent.leftChild, leftChild)
-        self.assertEqual(parent.rightChild, rightChild)
-        self.assertEqual(parent.leftChild.englishWord, "left")
-        self.assertEqual(parent.rightChild.englishWord, "right")
+        self.assertEqual(parent.left_child, left_child)
+        self.assertEqual(parent.right_child, right_child)
+        self.assertEqual(parent.left_child.english_word, "left")
+        self.assertEqual(parent.right_child.english_word, "right")
 
-    def testNodeComparison(self):
+    def test_node_comparison(self):
         node1 = DictionaryNode("apple", "яблоко")
         node2 = DictionaryNode("banana", "банан")
         node3 = DictionaryNode("apple", "другое_яблоко")  # Same English word
 
-        self.assertEqual(node1.englishWord, node3.englishWord)
-        self.assertNotEqual(node1.russianTranslation, node3.russianTranslation)
-        self.assertNotEqual(node1.englishWord, node2.englishWord)
+        self.assertEqual(node1.english_word, node3.english_word)
+        self.assertNotEqual(node1.russian_translation, node3.russian_translation)
+        self.assertNotEqual(node1.english_word, node2.english_word)
 
 
 if __name__ == '__main__':
