@@ -4,234 +4,234 @@ import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from src.PolynomialBase import PolynomialBase
-from src.Polynomial import Polynomial
+from src.polynomial_base import PolynomialBase
+from src.polynomial import Polynomial
 
 
 class TestComprehensive(unittest.TestCase):
 
-    def testPolynomialCreation(self):
+    def test_polynomial_creation(self):
         """Тест создания многочлена."""
-        testPolynomial = Polynomial([1, 2, 3])
-        self.assertEqual(testPolynomial.coefficients, [1, 2, 3])
-        self.assertEqual(testPolynomial.degree, 2)
+        test_polynomial = Polynomial([1, 2, 3])
+        self.assertEqual(test_polynomial.coefficients, [1, 2, 3])
+        self.assertEqual(test_polynomial.degree, 2)
 
-    def testZeroPolynomial(self):
+    def test_zero_polynomial(self):
         """Тест нулевого многочлена."""
-        zeroPolynomial = Polynomial([0])
-        self.assertEqual(zeroPolynomial.degree, 0)
-        self.assertEqual(zeroPolynomial(5), 0)
+        zero_polynomial = Polynomial([0])
+        self.assertEqual(zero_polynomial.degree, 0)
+        self.assertEqual(zero_polynomial(5), 0)
 
-    def testConstantPolynomial(self):
+    def test_constant_polynomial(self):
         """Тест константного многочлена."""
-        constantPoly = Polynomial([7])
-        self.assertEqual(constantPoly.degree, 0)
-        self.assertEqual(constantPoly(10), 7)
+        constant_poly = Polynomial([7])
+        self.assertEqual(constant_poly.degree, 0)
+        self.assertEqual(constant_poly(10), 7)
 
-    def testLeadingZerosRemoval(self):
+    def test_leading_zeros_removal(self):
         """Тест удаления ведущих нулей."""
-        polynomialWithZeros = Polynomial([0, 0, 3, 2])
-        self.assertEqual(polynomialWithZeros.coefficients, [3, 2])
-        self.assertEqual(polynomialWithZeros.degree, 1)
+        polynomial_with_zeros = Polynomial([0, 0, 3, 2])
+        self.assertEqual(polynomial_with_zeros.coefficients, [3, 2])
+        self.assertEqual(polynomial_with_zeros.degree, 1)
 
-    def testPolynomialStringFormat(self):
+    def test_polynomial_string_format(self):
         """Тест форматирования строки."""
-        polyOne = Polynomial([1, -2, 1])
-        self.assertEqual(str(polyOne), "1x^2 -2x +1")
+        poly_one = Polynomial([1, -2, 1])
+        self.assertEqual(str(poly_one), "1x^2 -2x +1")
 
-        polyTwo = Polynomial([-1, 0, 1])
-        self.assertEqual(str(polyTwo), "-1x^2 +1")
+        poly_two = Polynomial([-1, 0, 1])
+        self.assertEqual(str(poly_two), "-1x^2 +1")
 
-    def testPolynomialEvaluation(self):
+    def test_polynomial_evaluation(self):
         """Тест вычисления значения."""
-        testPoly = Polynomial([2, -1, 3])
-        self.assertEqual(testPoly(0), 3)
-        self.assertEqual(testPoly(1), 4)
-        self.assertEqual(testPoly(2), 9)
+        test_poly = Polynomial([2, -1, 3])
+        self.assertEqual(test_poly(0), 3)
+        self.assertEqual(test_poly(1), 4)
+        self.assertEqual(test_poly(2), 9)
 
-    def testCoefficientAccess(self):
+    def test_coefficient_access(self):
         """Тест доступа к коэффициентам."""
-        testPoly = Polynomial([4, 3, 2, 1])
-        self.assertEqual(testPoly[0], 4)
-        self.assertEqual(testPoly[1], 3)
-        self.assertEqual(testPoly[2], 2)
-        self.assertEqual(testPoly[3], 1)
+        test_poly = Polynomial([4, 3, 2, 1])
+        self.assertEqual(test_poly[0], 4)
+        self.assertEqual(test_poly[1], 3)
+        self.assertEqual(test_poly[2], 2)
+        self.assertEqual(test_poly[3], 1)
 
-    def testAdditionCommutative(self):
+    def test_addition_commutative(self):
         """Тест коммутативности сложения."""
-        polyFirst = Polynomial([1, 2])
-        polySecond = Polynomial([3, 4])
-        resultOne = polyFirst + polySecond
-        resultTwo = polySecond + polyFirst
-        self.assertEqual(resultOne.coefficients, resultTwo.coefficients)
+        poly_first = Polynomial([1, 2])
+        poly_second = Polynomial([3, 4])
+        result_one = poly_first + poly_second
+        result_two = poly_second + poly_first
+        self.assertEqual(result_one.coefficients, result_two.coefficients)
 
-    def testMultiplicationCommutative(self):
+    def test_multiplication_commutative(self):
         """Тест коммутативности умножения."""
-        polyFirst = Polynomial([1, 2])
-        polySecond = Polynomial([3, 4])
-        resultOne = polyFirst * polySecond
-        resultTwo = polySecond * polyFirst
-        self.assertEqual(resultOne.coefficients, resultTwo.coefficients)
+        poly_first = Polynomial([1, 2])
+        poly_second = Polynomial([3, 4])
+        result_one = poly_first * poly_second
+        result_two = poly_second * poly_first
+        self.assertEqual(result_one.coefficients, result_two.coefficients)
 
-    def testAdditionAssociativity(self):
+    def test_addition_associativity(self):
         """Тест ассоциативности сложения."""
-        polyFirst = Polynomial([1, 2])
-        polySecond = Polynomial([3, 4])
-        polyThird = Polynomial([5, 6])
+        poly_first = Polynomial([1, 2])
+        poly_second = Polynomial([3, 4])
+        poly_third = Polynomial([5, 6])
 
-        leftResult = (polyFirst + polySecond) + polyThird
-        rightResult = polyFirst + (polySecond + polyThird)
-        self.assertEqual(leftResult.coefficients, rightResult.coefficients)
+        left_result = (poly_first + poly_second) + poly_third
+        right_result = poly_first + (poly_second + poly_third)
+        self.assertEqual(left_result.coefficients, right_result.coefficients)
 
-    def testMultiplicationAssociativity(self):
+    def test_multiplication_associativity(self):
         """Тест ассоциативности умножения."""
-        polyFirst = Polynomial([1, 1])
-        polySecond = Polynomial([2, 1])
-        polyThird = Polynomial([3, 1])
+        poly_first = Polynomial([1, 1])
+        poly_second = Polynomial([2, 1])
+        poly_third = Polynomial([3, 1])
 
-        leftResult = (polyFirst * polySecond) * polyThird
-        rightResult = polyFirst * (polySecond * polyThird)
-        self.assertEqual(leftResult.coefficients, rightResult.coefficients)
+        left_result = (poly_first * poly_second) * poly_third
+        right_result = poly_first * (poly_second * poly_third)
+        self.assertEqual(left_result.coefficients, right_result.coefficients)
 
-    def testDistributiveProperty(self):
+    def test_distributive_property(self):
         """Тест дистрибутивности."""
-        polyFirst = Polynomial([1, 2])
-        polySecond = Polynomial([3, 4])
-        polyThird = Polynomial([5, 6])
+        poly_first = Polynomial([1, 2])
+        poly_second = Polynomial([3, 4])
+        poly_third = Polynomial([5, 6])
 
-        leftSide = polyFirst * (polySecond + polyThird)
-        rightSide = (polyFirst * polySecond) + (polyFirst * polyThird)
-        self.assertEqual(leftSide.coefficients, rightSide.coefficients)
+        left_side = poly_first * (poly_second + poly_third)
+        right_side = (poly_first * poly_second) + (poly_first * poly_third)
+        self.assertEqual(left_side.coefficients, right_side.coefficients)
 
-    def testIdentityAddition(self):
+    def test_identity_addition(self):
         """Тест сложения с нулевым многочленом."""
-        testPoly = Polynomial([1, 2, 3])
-        zeroPoly = Polynomial([0])
-        resultPoly = testPoly + zeroPoly
-        self.assertEqual(resultPoly.coefficients, testPoly.coefficients)
+        test_poly = Polynomial([1, 2, 3])
+        zero_poly = Polynomial([0])
+        result_poly = test_poly + zero_poly
+        self.assertEqual(result_poly.coefficients, test_poly.coefficients)
 
-    def testIdentityMultiplication(self):
+    def test_identity_multiplication(self):
         """Тест умножения на единичный многочлен."""
-        testPoly = Polynomial([1, 2, 3])
-        onePoly = Polynomial([1])
-        resultPoly = testPoly * onePoly
-        self.assertEqual(resultPoly.coefficients, testPoly.coefficients)
+        test_poly = Polynomial([1, 2, 3])
+        one_poly = Polynomial([1])
+        result_poly = test_poly * one_poly
+        self.assertEqual(result_poly.coefficients, test_poly.coefficients)
 
-    def testZeroMultiplication(self):
+    def test_zero_multiplication(self):
         """Тест умножения на ноль."""
-        testPoly = Polynomial([1, 2, 3])
-        zeroPoly = Polynomial([0])
-        resultPoly = testPoly * zeroPoly
-        self.assertEqual(resultPoly.coefficients, [0])
+        test_poly = Polynomial([1, 2, 3])
+        zero_poly = Polynomial([0])
+        result_poly = test_poly * zero_poly
+        self.assertEqual(result_poly.coefficients, [0])
 
-    def testDivisionByHigherDegree(self):
+    def test_division_by_higher_degree(self):
         """Тест деления на многочлен большей степени."""
-        polyNumerator = Polynomial([1, 2])
-        polyDenominator = Polynomial([1, 0, 1])
-        resultPoly = polyNumerator / polyDenominator
-        self.assertEqual(resultPoly.coefficients, [0])
+        poly_numerator = Polynomial([1, 2])
+        poly_denominator = Polynomial([1, 0, 1])
+        result_poly = poly_numerator / poly_denominator
+        self.assertEqual(result_poly.coefficients, [0])
 
-    def testExactDivision(self):
+    def test_exact_division(self):
         """Тест точного деления."""
-        polyNumerator = Polynomial([1, 3, 3, 1])
-        polyDenominator = Polynomial([1, 1])
-        resultPoly = polyNumerator / polyDenominator
-        self.assertEqual(resultPoly.coefficients, [1, 2, 1])
+        poly_numerator = Polynomial([1, 3, 3, 1])
+        poly_denominator = Polynomial([1, 1])
+        result_poly = poly_numerator / poly_denominator
+        self.assertEqual(result_poly.coefficients, [1, 2, 1])
 
-    def testScalarDivision(self):
+    def test_scalar_division(self):
         """Тест деления на скаляр."""
-        testPoly = Polynomial([4, 6, 8])
-        resultPoly = testPoly / 2
-        self.assertEqual(resultPoly.coefficients, [2, 3, 4])
+        test_poly = Polynomial([4, 6, 8])
+        result_poly = test_poly / 2
+        self.assertEqual(result_poly.coefficients, [2, 3, 4])
 
-    def testNegativeCoefficients(self):
+    def test_negative_coefficients(self):
         """Тест отрицательных коэффициентов."""
-        testPoly = Polynomial([-2, 3, -1])
-        self.assertEqual(testPoly(1), 0)
-        self.assertEqual(testPoly(2), -3)
+        test_poly = Polynomial([-2, 3, -1])
+        self.assertEqual(test_poly(1), 0)
+        self.assertEqual(test_poly(2), -3)
 
-    def testLargePolynomial(self):
+    def test_large_polynomial(self):
         """Тест многочлена высокой степени."""
-        largePoly = Polynomial([1, 0, 0, 0, 0, 1])
-        self.assertEqual(largePoly.degree, 5)
-        self.assertEqual(largePoly(1), 2)
+        large_poly = Polynomial([1, 0, 0, 0, 0, 1])
+        self.assertEqual(large_poly.degree, 5)
+        self.assertEqual(large_poly(1), 2)
 
-    def testPolynomialCopyIndependence(self):
+    def test_polynomial_copy_independence(self):
         """Тест независимости копии."""
-        originalPoly = Polynomial([1, 2, 3])
-        copiedPoly = originalPoly.copy()
+        original_poly = Polynomial([1, 2, 3])
+        copied_poly = original_poly.copy()
 
         # Изменение копии не должно влиять на оригинал
-        copiedPoly._coefficients[0] = 999
-        self.assertEqual(originalPoly.coefficients, [1, 2, 3])
+        copied_poly._coefficients[0] = 999
+        self.assertEqual(original_poly.coefficients, [1, 2, 3])
 
-    def testInheritanceRelationship(self):
+    def test_inheritance_relationship(self):
         """Тест отношений наследования."""
-        testPoly = Polynomial([1, 2, 3])
-        self.assertIsInstance(testPoly, PolynomialBase)
-        self.assertIsInstance(testPoly, Polynomial)
+        test_poly = Polynomial([1, 2, 3])
+        self.assertIsInstance(test_poly, PolynomialBase)
+        self.assertIsInstance(test_poly, Polynomial)
 
-    def testOperationChain(self):
+    def test_operation_chain(self):
         """Тест цепочки операций."""
-        polyFirst = Polynomial([2, -3, 1])
-        polySecond = Polynomial([1, -1])
-        polyThird = Polynomial([1, 1])
+        poly_first = Polynomial([2, -3, 1])
+        poly_second = Polynomial([1, -1])
+        poly_third = Polynomial([1, 1])
 
-        resultPoly = (polyFirst + polySecond) * polyThird
-        expectedPoly = Polynomial([2, 0, -2, 0])
-        self.assertEqual(resultPoly.coefficients, expectedPoly.coefficients)
+        result_poly = (poly_first + poly_second) * poly_third
+        expected_poly = Polynomial([2, 0, -2, 0])
+        self.assertEqual(result_poly.coefficients, expected_poly.coefficients)
 
-    def testDegreeCalculation(self):
+    def test_degree_calculation(self):
         """Тест вычисления степени после операций."""
-        polyFirst = Polynomial([1, 2, 3])
-        polySecond = Polynomial([1, 1])
+        poly_first = Polynomial([1, 2, 3])
+        poly_second = Polynomial([1, 1])
 
-        sumResult = polyFirst + polySecond
-        productResult = polyFirst * polySecond
+        sum_result = poly_first + poly_second
+        product_result = poly_first * poly_second
 
-        self.assertEqual(sumResult.degree, 2)
-        self.assertEqual(productResult.degree, 3)
+        self.assertEqual(sum_result.degree, 2)
+        self.assertEqual(product_result.degree, 3)
 
-    def testEdgeCaseDivision(self):
+    def test_edge_case_division(self):
         """Тест крайнего случая деления."""
-        polyNumerator = Polynomial([1, 1])
-        polyDenominator = Polynomial([1, 1])
-        resultPoly = polyNumerator / polyDenominator
-        self.assertEqual(resultPoly.coefficients, [1])
+        poly_numerator = Polynomial([1, 1])
+        poly_denominator = Polynomial([1, 1])
+        result_poly = poly_numerator / poly_denominator
+        self.assertEqual(result_poly.coefficients, [1])
 
-    def testFloatCoefficients(self):
+    def test_float_coefficients(self):
         """Тест вещественных коэффициентов."""
-        testPoly = Polynomial([1.5, 2.5, 3.5])
-        self.assertEqual(testPoly(1), 7.5)
-        self.assertEqual(testPoly(2), 14.5)
+        test_poly = Polynomial([1.5, 2.5, 3.5])
+        self.assertEqual(test_poly(1), 7.5)
+        self.assertEqual(test_poly(2), 14.5)
 
-    def testNegativeDegreeAccess(self):
+    def test_negative_degree_access(self):
         """Тест доступа к отрицательной степени."""
-        testPoly = Polynomial([1, 2, 3])
-        self.assertEqual(testPoly[-1], 0)
-        self.assertEqual(testPoly[10], 0)
+        test_poly = Polynomial([1, 2, 3])
+        self.assertEqual(test_poly[-1], 0)
+        self.assertEqual(test_poly[10], 0)
 
-    def testRepresentationMethod(self):
+    def test_representation_method(self):
         """Тест метода repr."""
-        testPoly = Polynomial([1, 2, 3])
-        representationString = repr(testPoly)
-        self.assertIn("polynomial_base", representationString)
-        self.assertIn("[1, 2, 3]", representationString)
+        test_poly = Polynomial([1, 2, 3])
+        representation_string = repr(test_poly)
+        self.assertIn("polynomial_base", representation_string)
+        self.assertIn("[1, 2, 3]", representation_string)
 
-    def testComplexOperationSequence(self):
+    def test_complex_operation_sequence(self):
         """Тест сложной последовательности операций."""
-        polyA = Polynomial([1, 1])
-        polyB = Polynomial([2, 1])
-        polyC = Polynomial([3, 1])
-        resultPoly = (polyA * polyB) + (polyA * polyC) - polyA
-        expectedPoly = Polynomial([5, 6, 1])  # 5x² + 6x + 1
-        self.assertEqual(resultPoly.coefficients, expectedPoly.coefficients)
+        poly_a = Polynomial([1, 1])
+        poly_b = Polynomial([2, 1])
+        poly_c = Polynomial([3, 1])
+        result_poly = (poly_a * poly_b) + (poly_a * poly_c) - poly_a
+        expected_poly = Polynomial([5, 6, 1])  # 5x² + 6x + 1
+        self.assertEqual(result_poly.coefficients, expected_poly.coefficients)
 
-    def testPolynomialWithManyZeros(self):
+    def test_polynomial_with_many_zeros(self):
         """Тест многочлена со многими нулями."""
-        sparsePoly = Polynomial([0, 0, 0, 5, 0, 0, 3])
-        self.assertEqual(sparsePoly.coefficients, [5, 0, 0, 3])
-        self.assertEqual(sparsePoly.degree, 3)
+        sparse_poly = Polynomial([0, 0, 0, 5, 0, 0, 3])
+        self.assertEqual(sparse_poly.coefficients, [5, 0, 0, 3])
+        self.assertEqual(sparse_poly.degree, 3)
 
 
 if __name__ == '__main__':
