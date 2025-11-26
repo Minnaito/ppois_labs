@@ -9,38 +9,38 @@ from src.PolynomialBase import PolynomialBase
 
 class TestPolynomialBase(unittest.TestCase):
 
-    def testInitialization(self):
+    def test_initialization(self):
         """Тесты инициализации многочлена."""
-        polynomialFirst = PolynomialBase([2, -3, 1])
-        self.assertEqual(polynomialFirst.coefficients, [2, -3, 1])
-        self.assertEqual(polynomialFirst.degree, 2)
+        polynomial_first = polynomial_base([2, -3, 1])
+        self.assertEqual(polynomial_first.coefficients, [2, -3, 1])
+        self.assertEqual(polynomial_first.degree, 2)
 
-    def testGetItem(self):
+    def test_getitem(self):
         """Тесты оператора []."""
-        testPolynomial = PolynomialBase([2, -3, 1])
-        self.assertEqual(testPolynomial[0], 2)
-        self.assertEqual(testPolynomial[1], -3)
-        self.assertEqual(testPolynomial[2], 1)
+        test_polynomial = polynomial_base([2, -3, 1])
+        self.assertEqual(test_polynomial[0], 2)
+        self.assertEqual(test_polynomial[1], -3)
+        self.assertEqual(test_polynomial[2], 1)
 
-    def testCallOperator(self):
+    def test_call_operator(self):
         """Тесты вычисления значения."""
-        testPolynomial = PolynomialBase([2, -3, 1])
-        self.assertEqual(testPolynomial(0), 1)
-        self.assertEqual(testPolynomial(1), 0)
-        self.assertEqual(testPolynomial(2), 3)
+        test_polynomial = polynomial_base([2, -3, 1])
+        self.assertEqual(test_polynomial(0), 1)
+        self.assertEqual(test_polynomial(1), 0)
+        self.assertEqual(test_polynomial(2), 3)
 
-    def testStringRepresentation(self):
+    def test_string_representation(self):
         """Тесты строкового представления."""
-        self.assertEqual(str(PolynomialBase([2, -3, 1])), "2x^2 -3x +1")
-        self.assertEqual(str(PolynomialBase([5])), "5")
+        self.assertEqual(str(polynomial_base([2, -3, 1])), "2x^2 -3x +1")
+        self.assertEqual(str(polynomial_base([5])), "5")
 
-    def testCopy(self):
+    def test_copy(self):
         """Тест копирования."""
-        polynomialOriginal = PolynomialBase([2, -3, 1])
-        polynomialCopy = polynomialOriginal.copy()
+        polynomial_original = polynomial_base([2, -3, 1])
+        polynomial_copy = polynomial_original.copy()
 
-        self.assertEqual(polynomialOriginal.coefficients, polynomialCopy.coefficients)
-        self.assertIsNot(polynomialOriginal, polynomialCopy)
+        self.assertEqual(polynomial_original.coefficients, polynomial_copy.coefficients)
+        self.assertIsNot(polynomial_original, polynomial_copy)
 
 
 if __name__ == '__main__':
