@@ -1,0 +1,116 @@
+# Отчет по объектной модели автомобильного завода
+
+## Производственные Модули (Production)
+
+**ProductionLine** 8 6 → MachineOperator, CarPart  
+**AssemblyStation** 7 5 → MachineOperator, CarPart  
+**PartFactory** 6 4 → CarPart, Engine, Transmission, BrakeSystem  
+**CarPart** 12 8 → BasePart, QualityControl  
+**Engine** 9 7 → CarPart  
+**Transmission** 8 6 → CarPart  
+**BrakeSystem** 8 6 → CarPart  
+**ElectricalSystem** 7 5 → CarPart  
+**SuspensionSystem** 7 5 → CarPart  
+**CompositePart** 6 4 → CarPart  
+
+## Персонал (Employees)
+
+**BaseEmployee** 10 7 → EmployeeException  
+**HRManager** 8 6 → BaseEmployee  
+**MachineOperator** 7 5 → BaseEmployee, ProductionLine  
+**MaintenanceTechnician** 9 7 → BaseEmployee, MachineMaintenance  
+**ProductionSupervisor** 8 6 → BaseEmployee, ProductionLine  
+**QualityInspector** 7 5 → BaseEmployee, CarPart  
+**QualityManager** 8 6 → BaseEmployee, QualityControl  
+**WarehouseWorker** 7 5 → BaseEmployee, Warehouse  
+
+## Управление Качеством (Quality)
+
+**QualityControl** 6 4 → CarPart  
+**QualityStandard** 7 5 → CarPart  
+**DefectReport** 7 5 → CarPart, QualityInspector  
+**TestingEquipment** 6 4 →  
+**QualityInspector** 7 5 → BaseEmployee, CarPart  
+
+## Склад и Инвентарь (Inventory)
+
+**Warehouse** 8 6 → InventoryItem  
+**InventoryItem** 9 7 → StockLevelCriticalError  
+**RawMaterial** 8 6 → InventoryItem  
+**ReorderAlert** 6 4 → InventoryItem  
+**StockMovement** 6 4 → InventoryItem  
+**Supplier** 6 4 →  
+
+## Финансы (Finance)
+
+**Budget** 8 6 → BudgetExceededError  
+**CostAnalysis** 7 5 →  
+**FinancialReport** 8 6 →  
+**Invoice** 6 4 →  
+**Payment** 7 5 →  
+**Transaction** 7 5 → InsufficientFundsError  
+
+## Техническое Обслуживание (Maintenance)
+
+**MachineMaintenance** 8 6 → MachineMaintenanceRequiredError  
+**MaintenanceLog** 8 6 →  
+**MaintenanceSchedule** 7 5 →  
+**RepairTicket** 7 5 →  
+
+## Инфраструктура (Infrastructure)
+
+**FactoryBuilding** 7 5 →  
+**ProductionHall** 7 5 →  
+**SafetySystem** 7 5 →  
+**StorageFacility** 7 5 →  
+
+## Утилиты и Вспомогательные Классы (Utilities)
+
+**AdvancedValidator** 6 4 →  
+**CalculationUtils** 6 4 →  
+**DateUtils** 7 5 →  
+**Logger** 5 4 →  
+**PaymentProcessor** 6 4 → InsufficientFundsError  
+**ValidationUtils** 6 4 →  
+
+## Исключения (Exceptions)
+
+**EmployeeException** 1 1 →  
+**InvalidEmployeeDataError** 1 1 → EmployeeException  
+
+**FinanceException** 1 1 →  
+**BudgetExceededError** 1 1 → FinanceException  
+**InsufficientFundsError** 1 1 → FinanceException  
+
+**InventoryException** 1 1 →  
+**StockLevelCriticalError** 1 1 → InventoryException  
+**WarehouseCapacityExceededError** 1 1 → InventoryException  
+
+**ProductionException** 1 1 →  
+**InsufficientMaterialsError** 1 1 → ProductionException  
+**MachineMaintenanceRequiredError** 1 1 → ProductionException  
+**ProductionCapacityExceededError** 1 1 → ProductionException  
+
+**QualityException** 1 1 →  
+**DefectivePartError** 1 1 → QualityException  
+**InspectionFailedError** 1 1 → QualityException  
+**QualityStandardViolationError** 1 1 → QualityException  
+
+## Абстрактные Классы (Abstract)
+
+**BaseEmployee** 10 7 → EmployeeException  
+**BaseMachine** 8 6 → MachineMaintenanceRequiredError  
+**BasePart** 9 7 → QualityStandardViolationError  
+
+---
+
+## Статистика модели:
+
+**Поля:** 215  
+**Поведения:** 159  
+**Ассоциации:** 45  
+**Исключения:** 14  
+
+**Всего классов:** 48  
+**Абстрактных классов:** 3  
+**Модулей/пакетов:** 8
