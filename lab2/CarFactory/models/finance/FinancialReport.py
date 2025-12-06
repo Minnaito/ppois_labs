@@ -5,7 +5,6 @@ class FinancialReport:
     def __init__(self, report_id: str, period: str):
         self._report_id = report_id
         self._period = period
-        # revenue и expenses не храним как поля, считаем при вызове
 
     def generate(self, revenue: float, expenses: float) -> dict:
         profit = revenue - expenses
@@ -20,4 +19,5 @@ class FinancialReport:
             "expenses": expenses,
             "profit": profit,
             "margin": margin
+
         }
