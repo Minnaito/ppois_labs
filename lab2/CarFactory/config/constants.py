@@ -59,12 +59,6 @@ MIN_PASSWORD_LENGTH = 8
 STANDARD_CVV_LENGTH = 3
 MIN_STRONG_PASSWORD_SCORE = 60
 
-# ДЛЯ Engine.simulate_race()
-RACE_SPEED_PER_HP = 0.1
-RACE_EFFICIENCY = 0.85
-MIN_RACE_DISTANCE = 0.5
-MAX_RACE_DISTANCE = 50.0
-
 # ДЛЯ Budget.check_budget_health()
 BUDGET_HEALTHY_LIMIT = 70
 BUDGET_WARNING_LIMIT = 85
@@ -72,6 +66,7 @@ BUDGET_WARNING_LIMIT = 85
 # ДЛЯ PaymentProcessor.validatePasswordStrength()
 PASSWORD_MIN_LENGTH = 8
 PASSWORD_STRONG_SCORE = 60
+
 
 SHIPPING_COST_PER_KG_PER_KM = 0.1
 VALID_MATERIAL_TYPES = ["steel", "aluminum", "carbon", "composite", "plastic"]
@@ -84,5 +79,29 @@ VALID_BRAKE_TYPES = ["независимая", "зависимая", "independen
 STANDARD_MATERIAL_COST = 500
 
 # Составные детали
-COMPOSITE_CHILD_COST_FACTOR = 10 
-MAX_CHILD_PARTS_PER_COMPOSITE = 20  
+COMPOSITE_CHILD_COST_FACTOR = 10
+MAX_CHILD_PARTS_PER_COMPOSITE = 20
+
+# Электрическая система
+ELECTRICAL_VOLTAGE_COST_FACTOR = 2
+MIN_ELECTRICAL_VOLTAGE = 12
+MAX_ELECTRICAL_VOLTAGE = 48
+STANDARD_VOLTAGE_LEVELS = [12, 24, 48]
+# Подвеска
+SUSPENSION_TYPE_COST_FACTOR = 30
+VALID_SUSPENSION_TYPES = [
+    "независимая", "зависимая",
+    "independent", "dependent",
+    "пружинная", "торсионная", "пневматическая"
+]
+MIN_SUSPENSION_WEIGHT = 20.0
+MAX_SUSPENSION_WEIGHT = 150.0
+
+# Коробка передач
+TRANSMISSION_GEAR_COST_FACTOR = 80
+MIN_TRANSMISSION_GEARS = 4
+MAX_TRANSMISSION_GEARS = 10
+VALID_TRANSMISSION_TYPES = [
+    "механическая", "автоматическая", "роботизированная", "вариатор"
+]
+TRANSMISSION_WEIGHT_PER_GEAR = 5.0
