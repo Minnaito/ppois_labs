@@ -16,7 +16,6 @@ class TestAllFacilities(unittest.TestCase):
         facilities = [building, hall, storage, safety]
 
         for facility in facilities:
-            # Проверяем, что у каждого объекта есть методы получения информации
             if hasattr(facility, 'get_info'):
                 info = facility.get_info()
                 self.assertIsInstance(info, dict)
@@ -26,4 +25,5 @@ class TestAllFacilities(unittest.TestCase):
 
 
 if __name__ == '__main__':
+
     unittest.main()
