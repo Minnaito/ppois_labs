@@ -4,7 +4,7 @@ class CostAnalysis:
     def __init__(self, analysisId: str, analysisPeriod: str):
         self._analysisId = analysisId
         self._analysisPeriod = analysisPeriod
-        self._totalCosts = 0.0
+        self._totalCosts = constants.ZERO_VALUE
         self._costBreakdown = {}
 
     def addCostCategory(self, category: str, amount: float) -> None:
@@ -12,10 +12,10 @@ class CostAnalysis:
         self._totalCosts += amount
 
     def calculateCostDistribution(self) -> dict:
-        if self._totalCosts > 0:
+        if self._totalCosts > constants.ZERO_VALUE:
             distribution = {}
             for category, amount in self._costBreakdown.items():
-                distribution[category] = (amount / self._totalCosts) * 100
+                distribution[category] = (amount / self._totalCosts) * constants.PERCENTAGE_MULTIPLIER
             return distribution
         return {}
 
