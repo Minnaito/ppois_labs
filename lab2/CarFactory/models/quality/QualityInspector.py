@@ -11,9 +11,10 @@ class QualityInspector(BaseEmployee):
                  monthly_salary: float, department_name: str):
         super().__init__(employee_identifier, full_name, job_position, monthly_salary)
         self._department_name = department_name
-        self._completed_inspections_count = 0
+        self._completed_inspections_count = constants.ZERO_VALUE
         self._certification_level = "BASIC"
         self._specialization_areas = []
-        self._inspection_success_rate = 0.0
+        self._inspection_success_rate = constants.ZERO_VALUE
         self._tools_certified = []
+
 
