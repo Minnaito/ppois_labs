@@ -7,7 +7,8 @@ class FactoryBuilding:
         self._is_operational = True
 
     def calculate_age(self, current_year: int) -> int:
-        return current_year - constants.ZERO_VALUE  # упрощенный расчет
+        return current_year - constants.ZERO_VALUE 
 
     def get_info(self) -> dict:
+
         return {"id": self._building_id, "area": self._area, "operational": self._is_operational}
