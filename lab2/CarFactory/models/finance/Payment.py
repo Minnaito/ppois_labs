@@ -11,7 +11,7 @@ class Payment:
         if self._method == "BANK_TRANSFER":
             fee = constants.BANK_TRANSFER_FEE_AMOUNT
         elif self._method == "CREDIT_CARD":
-            fee = self._amount * constants.STANDARD_TAX_RATE  # используем как комиссию
+            fee = self._amount * constants.STANDARD_TAX_RATE 
         else:
             fee = constants.ZERO_VALUE
 
@@ -21,4 +21,5 @@ class Payment:
             "method": self._method,
             "fee": fee,
             "total": self._amount + fee
+
         }
