@@ -3,10 +3,9 @@ from config import constants
 
 class RawMaterial(InventoryItem):
     def __init__(self, item_id: str, name: str, quality: str):
-        # InventoryItem ожидает: itemIdentifier, itemName, itemType, unitPrice
         item_type = "RAW_MATERIAL"
         unit_price = constants.MATERIAL_COST_MULTIPLIER * constants.DEMO_ENGINE_CYLINDERS
-        super().__init__(item_id, name, item_type, unit_price)  # ← 4 параметра
+        super().__init__(item_id, name, item_type, unit_price)
         self._quality = quality
 
     def check_quality_compliance(self, required_quality: str) -> bool:
@@ -18,4 +17,5 @@ class RawMaterial(InventoryItem):
     def get_specs(self) -> dict:
         base = super().getItemInformation()
         base.update({"quality": self._quality})
+
         return base
