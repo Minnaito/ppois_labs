@@ -3,9 +3,6 @@ from config import constants
 
 
 class ValidationUtils:
-    """
-    Утилиты для валидации данных
-    """
 
     @staticmethod
     def validateEmail(email: str) -> bool:
@@ -39,4 +36,5 @@ class ValidationUtils:
     @staticmethod
     def validateWeight(weight: float) -> bool:
         """Валидация веса"""
+
         return weight >= constants.MINIMUM_PART_WEIGHT
