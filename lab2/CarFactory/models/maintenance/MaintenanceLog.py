@@ -48,5 +48,6 @@ class MaintenanceLog:
             "total_cost": self._total_cost,
             "preventive_cost": preventive_cost,
             "corrective_cost": corrective_cost,
-            "preventive_percentage": (preventive_cost / self._total_cost * 100) if self._total_cost > 0 else 0
+            "preventive_percentage": (preventive_cost / self._total_cost * constants.PERCENTAGE_MULTIPLIER) if self._total_cost > constants.ZERO_VALUE else constants.ZERO_VALUE
+
         }
