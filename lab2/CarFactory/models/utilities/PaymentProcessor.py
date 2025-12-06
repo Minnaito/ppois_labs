@@ -26,7 +26,7 @@ class PaymentProcessor:
         return newFromBalance, newToBalance, fee
 
     def validatePasswordStrength(self, password: str) -> dict:
-        """Проверка надежности пароля с использованием констант"""
+        """Проверка надежности пароля"""
         checks = {
             "length": len(password) >= constants.PASSWORD_MIN_LENGTH,
             "uppercase": bool(re.search(r'[A-Z]', password)),
@@ -42,7 +42,7 @@ class PaymentProcessor:
         score = constants.ZERO_VALUE
         for check in checks.values():
             if check:
-                score += points_per_check  # 20% за каждый критерий
+                score += points_per_check 
 
         isStrong = score >= constants.PASSWORD_STRONG_SCORE
 
@@ -68,4 +68,5 @@ class PaymentProcessor:
             "processedTransactions": self._processedTransactions,
             "successfulTransactions": self._successfulTransactions,
             "successRate": successRate
+
         }
