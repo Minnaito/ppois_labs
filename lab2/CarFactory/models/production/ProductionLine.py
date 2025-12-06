@@ -59,7 +59,7 @@ class ProductionLine:
     def optimize_schedule(self, orders: list) -> dict:
         """Оптимизация расписания"""
         total_orders = sum(orders)
-        days_needed = total_orders / self._capacity if self._capacity > 0 else 0
+        days_needed = total_orders / self._capacity if self._capacity > constants.ZERO_VALUE else constants.ZERO_VALUE
         return {"total_orders": total_orders, "estimated_days": days_needed}
 
     def generate_report(self) -> dict:
@@ -73,3 +73,4 @@ class ProductionLine:
             "available": self._capacity - self._produced
 
         }
+
