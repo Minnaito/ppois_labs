@@ -4,7 +4,7 @@ class MaintenanceSchedule:
     def __init__(self, scheduleId: str, machineId: str):
         self._scheduleId = scheduleId
         self._machineId = machineId
-        self._tasks = []  # 3 поля вместо 7
+        self._tasks = [] 
 
     def addTask(self, description: str):
         """Добавить задачу"""
@@ -13,4 +13,5 @@ class MaintenanceSchedule:
 
     def getTasksCount(self):
         """Получить количество задач"""
+
         return len(self._tasks)
