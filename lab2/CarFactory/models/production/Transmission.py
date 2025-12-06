@@ -9,16 +9,20 @@ class Transmission(CarPart):
         self._gearCount = gearCount
 
     def calculateProductionCost(self) -> float:
-        baseCost = super().calculateProductionCost()
-        gearCost = self._gearCount * 80
+        baseCost = super().calculate_cost() 
+        gearCost = self._gearCount * constants.TRANSMISSION_GEAR_COST_FACTOR
         return baseCost + gearCost
 
     def performQualityCheck(self) -> bool:
-        super().performQualityCheck()
-        return 4 <= self._gearCount <= 10
+        super().check_quality() 
+        return (constants.MIN_TRANSMISSION_GEARS <= self._gearCount <= 
+                constants.MAX_TRANSMISSION_GEARS)
 
     def getTransmissionSpecifications(self) -> dict:
         return {
             "transmissionType": self._transmissionType,
-            "gearCount": self._gearCount
+            "gearCount": self._gearCount,
+            "min_allowed_gears": constants.MIN_TRANSMISSION_GEARS,
+            "max_allowed_gears": constants.MAX_TRANSMISSION_GEARS,
+            "gear_cost_factor": constants.TRANSMISSION_GEAR_COST_FACTOR
         }
