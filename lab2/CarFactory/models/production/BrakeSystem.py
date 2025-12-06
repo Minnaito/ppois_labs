@@ -10,9 +10,10 @@ class BrakeSystem(CarPart):
 
     def calculateProductionCost(self) -> float:
         baseCost = super().calculateProductionCost()
-        diameterCost = self._discDiameter * 15
+        diameterCost = self._discDiameter * constants.BRAKE_DIAMETER_COST_FACTOR
         return baseCost + diameterCost
 
     def performQualityCheck(self) -> bool:
         super().performQualityCheck()
-        return 200 <= self._discDiameter <= 400
+        return (constants.MIN_BRAKE_DISC_DIAMETER <= self._discDiameter <= 
+                constants.MAX_BRAKE_DISC_DIAMETER)
