@@ -41,14 +41,14 @@ class ProductionLine:
 
     def calculate_efficiency(self, target: int) -> float:
         """Эффективность линии"""
-        if target > 0:
-            return min((self._produced / target) * 100, 100)
-        return 0
+        if target > constants.ZERO_VALUE:
+            return min((self._produced / target) * constants.PERCENTAGE_MULTIPLIER, constants.PERCENTAGE_MULTIPLIER)
+        return constants.ZERO_VALUE
 
     def predict_completion_date(self, daily_target: int) -> str:
         """Предсказать дату завершения"""
         remaining = self._capacity - self._produced
-        days_needed = remaining / daily_target if daily_target > 0 else 0
+        days_needed = remaining / daily_target if daily_target > constants.ZERO_VALUE else constants.ZERO_VALUE
         from datetime import datetime, timedelta
         return (datetime.now() + timedelta(days=days_needed)).strftime("%Y-%m-%d")
 
@@ -71,4 +71,5 @@ class ProductionLine:
             "capacity": self._capacity,
             "utilization": self.calculate_utilization(),
             "available": self._capacity - self._produced
+
         }
