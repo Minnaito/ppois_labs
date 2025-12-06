@@ -7,9 +7,8 @@ class PartFactory:
     @staticmethod
     def createEngine(part_id: str, name: str) -> Engine:
         """Создать двигатель с демо-параметрами"""
-        engine = Engine(part_id, constants.DEMO_ENGINE_HORSEPOWER)  # ← только 2 параметра
-        engine._name = name  # ← установить имя отдельно
-        # cylinders будет установлен через константу в Engine
+        engine = Engine(part_id, constants.DEMO_ENGINE_HORSEPOWER)  
+        engine._name = name  
         return engine
 
     @staticmethod
@@ -30,4 +29,5 @@ class PartFactory:
     @staticmethod
     def createDemoCarPart() -> CarPart:
         """Создать демо-деталь"""
+
         return PartFactory.createCarPart("DEMO_PART", "Демо деталь")
