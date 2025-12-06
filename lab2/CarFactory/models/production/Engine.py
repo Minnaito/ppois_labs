@@ -30,43 +30,6 @@ class Engine(CarPart):
         relative_power = self._horsepower / constants.DEMO_ENGINE_HORSEPOWER
         return (base_consumption * relative_power) * distance
 
-    def simulate_race(self, opponent_hp: int, track_length: float) -> dict:
-        """Симуляция гонки с использованием новых констант"""
-        # Валидация длины трека с использованием констант
-        if track_length < constants.MIN_RACE_DISTANCE:
-            track_length = constants.MIN_RACE_DISTANCE
-        elif track_length > constants.MAX_RACE_DISTANCE:
-            track_length = constants.MAX_RACE_DISTANCE
-
-        # Расчет скорости с использованием констант
-        speed_per_hp = constants.RACE_SPEED_PER_HP  # 0.1 км/ч на 1 л.с.
-        efficiency = constants.RACE_EFFICIENCY  # 0.85 (85% эффективности)
-
-        # Расчет времени для текущего двигателя
-        self_speed = self._horsepower * speed_per_hp * efficiency
-        self_time = track_length / self_speed if self_speed > 0 else float('inf')
-
-        # Расчет времени для двигателя-соперника
-        opponent_speed = opponent_hp * speed_per_hp * efficiency
-        opponent_time = track_length / opponent_speed if opponent_speed > 0 else float('inf')
-
-        # Определение победителя
-        winner = "self" if self_time < opponent_time else "opponent" if opponent_time < self_time else "draw"
-
-        return {
-            "winner": winner,
-            "time_difference": abs(self_time - opponent_time),
-            "self_horsepower": self._horsepower,
-            "opponent_horsepower": opponent_hp,
-            "self_time_seconds": round(self_time, 2),
-            "opponent_time_seconds": round(opponent_time, 2),
-            "track_length_km": track_length,
-            "min_track_length": constants.MIN_RACE_DISTANCE,
-            "max_track_length": constants.MAX_RACE_DISTANCE,
-            "speed_per_hp": speed_per_hp,
-            "efficiency_factor": efficiency
-        }
-
     def calculate_emissions(self) -> float:
         """Выбросы CO2 с использованием констант"""
         # BASE_REPAIR_COST как базовая стоимость выбросов
@@ -131,4 +94,5 @@ class Engine(CarPart):
             "hp_range": f"{constants.MIN_ENGINE_HORSEPOWER}-{constants.MAX_ENGINE_HORSEPOWER}",
             "valid_cylinders": constants.VALID_ENGINE_CYLINDERS,
             "min_weight": constants.MINIMUM_PART_WEIGHT
+
         }
