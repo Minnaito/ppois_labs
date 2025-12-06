@@ -3,8 +3,7 @@ from config import constants
 
 class Engine(CarPart):
     def __init__(self, part_id: str, horsepower: int):
-        # CarPart ожидает 4 параметра: part_id, name, material, weight
-        super().__init__(part_id, "Engine", "steel", constants.DEMO_ENGINE_WEIGHT)  # ← 4 параметра
+        super().__init__(part_id, "Engine", "steel", constants.DEMO_ENGINE_WEIGHT)  
         self._horsepower = horsepower
 
     def calculate_cost(self) -> float:
@@ -43,7 +42,6 @@ class Engine(CarPart):
         hp_factor = self._horsepower / constants.DEMO_ENGINE_HORSEPOWER
         cylinder_factor = self._cylinders / constants.DEMO_ENGINE_CYLINDERS
 
-        # Используем STANDARD_TAX_RATE как коэффициент износа
         wear_rate = constants.STANDARD_TAX_RATE
 
         return base_cost * hp_factor * cylinder_factor * age_years * (1 + wear_rate)
@@ -52,7 +50,6 @@ class Engine(CarPart):
         """Технические характеристики с использованием констант"""
         power_to_weight = self.calculate_power_to_weight()
 
-        # Определяем класс двигателя на основе мощности
         if self._horsepower >= constants.MAX_ENGINE_HORSEPOWER * constants.MIN_QUALITY_STANDARD:
             engine_class = "HIGH_PERFORMANCE"
         elif self._horsepower >= constants.DEMO_ENGINE_HORSEPOWER:
@@ -96,3 +93,4 @@ class Engine(CarPart):
             "min_weight": constants.MINIMUM_PART_WEIGHT
 
         }
+
