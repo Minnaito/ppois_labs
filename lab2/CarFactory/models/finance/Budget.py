@@ -72,13 +72,13 @@ class Budget:
         """Проверить "здоровье" бюджета"""
         utilization = self.calculate_utilization()
 
-        # Используем новые константы для пороговых значений
         if utilization >= constants.BUDGET_WARNING_LIMIT:
             return "CRITICAL"
         elif utilization >= constants.BUDGET_HEALTHY_LIMIT:
             return "WARNING"
         else:
             return "HEALTHY"
+
 
 
 
