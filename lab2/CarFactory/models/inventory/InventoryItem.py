@@ -8,12 +8,12 @@ class InventoryItem:
         self._itemName = itemName
         self._itemType = itemType
         self._unitPrice = unitPrice
-        self._currentQuantity = 0
+        self._currentQuantity = constants.ZERO_VALUE
         self._minimumStockLevel = constants.MINIMUM_STOCK_LEVEL
 
     def updateItemQuantity(self, newQuantity: int) -> None:
-        if newQuantity < 0:
-            raise StockLevelCriticalError(self._itemName, 0, self._currentQuantity)
+        if newQuantity < constants.ZERO_VALUE:
+            raise StockLevelCriticalError(self._itemName, constants.ZERO_VALUE, self._currentQuantity)
         self._currentQuantity = newQuantity
 
     def calculateTotalValue(self) -> float:
