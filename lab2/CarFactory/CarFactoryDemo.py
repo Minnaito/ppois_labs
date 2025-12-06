@@ -73,7 +73,6 @@ class CarFactoryDemo:
             except AttributeError:
                 print(f"   Обязанности: {emp.performWorkDuties()}")
 
-        # 2. Production Classes
         print("\n2. ПРОИЗВОДСТВО:")
         line = ProductionLine("PL001", "Основная линия", 100)
         try:
@@ -82,7 +81,6 @@ class CarFactoryDemo:
             pass
         self.production_lines.append(line)
 
-        # Создаем детали через конструкторы
         engine = Engine("ENG001", 300)  # part_id, horsepower
         car_part = CarPart("PART001", "Деталь кузова", "steel", 25.0)
 
@@ -100,12 +98,10 @@ class CarFactoryDemo:
             except Exception as e:
                 print(f"   {part._name}: ошибка - {e}")
 
-        # 3. Factory PartFactory
         print("\n3. ФАБРИКА ДЕТАЛЕЙ:")
         print(f"   Создан через фабрику: {demo_engine._name}")
         print(f"   Создана через фабрику: {demo_part._name}")
 
-        # 4. Inventory Classes
         print("\n4. ИНВЕНТАРЬ:")
         warehouse = Warehouse("WH001", 1000)
         self.warehouses.append(warehouse)
@@ -119,7 +115,6 @@ class CarFactoryDemo:
         print(f"   Товар: {inventory_item._itemName}, количество: {inventory_item._currentQuantity}")
         print(f"   Сырье: {raw_material._itemName}, качество: {raw_material._quality}")
 
-        # 5. Supplier
         print("\n5. ПОСТАВЩИКИ:")
         supplier = Supplier("SUP001", "МеталлСервис", "8-800-555-3535", 4.5)
         order = supplier.processOrder("Алюминий", 100, 500.0)
@@ -127,7 +122,6 @@ class CarFactoryDemo:
         print(f"   Поставщик: {supplier._supplierName}, рейтинг: {supplier._rating}")
         print(f"   Заказ: {order['materialName']}, сумма: {order['totalAmount']:,.0f} руб.")
 
-        # 6. Finance Classes
         print("\n6. ФИНАНСЫ:")
         budget = Budget("BUD001", 1000000)
         budget.spend(450000)
@@ -155,7 +149,6 @@ class CarFactoryDemo:
 
         print(f"   Финансовый отчет: прибыль {report['profit']:,.0f} руб.")
 
-        # 7. Quality Control
         print("\n7. КОНТРОЛЬ КАЧЕСТВА:")
         quality_control = QualityControl("QC001", "Система контроля качества")
         for part in self.parts[:2]:  # Проверим только первые две детали
@@ -164,8 +157,7 @@ class CarFactoryDemo:
                 print(f"   Проверка {part._name}: {'ПРОШЛА' if result else 'НЕ ПРОШЛА'}")
             except Exception as e:
                 print(f"   Ошибка проверки {part._name}: {e}")
-
-        # 8. Maintenance
+                
         print("\n8. ОБСЛУЖИВАНИЕ:")
         maintenance = MachineMaintenance("MAINT001", "CNC-001")
         maintenance.start()
@@ -180,7 +172,6 @@ class CarFactoryDemo:
         print(f"   Заявка на ремонт: {repair_ticket._issue}")
         print(f"   Записей в журнале: {len(maintenance_log._entries)}")
 
-        # 9. Factory Facilities
         print("\n9. ПРОИЗВОДСТВЕННЫЕ ПОМЕЩЕНИЯ:")
         factory_building = FactoryBuilding("B001", 3000)
         production_hall = ProductionHall("H001", "B001", 1000)
@@ -196,11 +187,8 @@ class CarFactoryDemo:
         print(f"   Цех ID: {production_hall._hall_id}, площадь: {production_hall._area} м²")
         print(f"   Склад ID: {storage_facility._facility_id}, запасы: {storage_facility._stock}")
 
-        # 10. Utilities - PaymentProcessor
         print("\n10. ПЛАТЕЖНЫЙ ПРОЦЕССОР:")
         payment_processor = PaymentProcessor("PP001")
-
-        # Перевод между картами
         try:
             from_balance, to_balance, fee = payment_processor.transferBetweenCards(10000, 5000, 3000)
             print(f"   Перевод успешен: {3000:,.0f} руб. (комиссия {fee:,.0f} руб.)")
@@ -209,37 +197,31 @@ class CarFactoryDemo:
         except Exception as e:
             print(f"   Ошибка перевода: {e}")
 
-        # Проверка пароля
         password_check = payment_processor.validatePasswordStrength("MyPass123!")
         print(f"   Проверка пароля 'MyPass123!':")
         print(f"     Надежный: {password_check['isStrong']}")
         print(f"     Оценка: {password_check['score']}/100")
 
-        # 11. Утилиты
         print("\n11. УТИЛИТЫ:")
 
-        # Расчеты
         calc = CalculationUtils
         tax = calc.calculateTax(100000)
         percentage = calc.calculatePercentage(75, 150)
         print(f"   Налог на 100,000 руб.: {tax:,.0f} руб.")
         print(f"   75 от 150: {percentage:.0f}%")
 
-        # Даты
         date = DateUtils
         today = date.getCurrentDate()
         future_date = date.addDaysToDate(today, 30)
         print(f"   Сегодня: {today}")
         print(f"   Через 30 дней: {future_date}")
 
-        # Валидация
         valid = ValidationUtils
         email_valid = valid.validateEmail("test@example.com")
         name_valid = valid.validateName("Иван Иванов")
         print(f"   Email test@example.com: {'валиден' if email_valid else 'невалиден'}")
         print(f"   Имя 'Иван Иванов': {'валидно' if name_valid else 'невалидно'}")
 
-        # 12. Логирование
         print("\n12. ЛОГИРОВАНИЕ:")
         logger = Logger("CarFactoryDemo")
         logger.logInfo("Демонстрация завершена успешно")
@@ -267,4 +249,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()
