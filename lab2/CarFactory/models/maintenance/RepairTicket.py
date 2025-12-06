@@ -8,7 +8,8 @@ class RepairTicket:
 
     def update_status(self, new_status: str) -> None:
         if new_status in constants.TRANSACTION_STATUSES:
-            pass  # упрощенная логика
+            pass  
 
     def get_details(self) -> dict:
+
         return {"ticket": self._ticket_id, "machine": self._machine_id, "issue": self._issue}
