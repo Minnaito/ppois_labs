@@ -82,7 +82,6 @@ ProductionException 1 1 → ProductionLine
 FinanceException 1 1 → Budget
 
 СВОДНАЯ СТАТИСТИКА
-
 Поля: 171
 Поведения: 107
 Ассоциации: 38
