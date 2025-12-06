@@ -69,7 +69,7 @@ class Budget:
         }
 
     def check_budget_health(self) -> str:
-        """Проверить здоровье бюджета с использованием новых констант"""
+        """Проверить "здоровье" бюджета"""
         utilization = self.calculate_utilization()
 
         # Используем новые константы для пороговых значений
@@ -79,5 +79,6 @@ class Budget:
             return "WARNING"
         else:
             return "HEALTHY"
+
 
 
