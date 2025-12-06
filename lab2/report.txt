@@ -1,122 +1,91 @@
-# Отчет по коду автомобильного завода
+СИСТЕМА УПРАВЛЕНИЯ АВТОМОБИЛЬНЫМ ЗАВОДОМ
 
-## Производственные Модели (Production)
-CarPart 8 7 → BasePart
-Engine 9 8 → CarPart
-Transmission 9 8 → CarPart
-BrakeSystem 9 8 → CarPart
-ElectricalSystem 9 8 → CarPart
-SuspensionSystem 9 8 → CarPart
-CompositePart 8 6 → CarPart
-PartFactory 4 4 → Engine, Transmission, BrakeSystem, CarPart
-ProductionLine 8 5 → ProductionCapacityExceededError
-AssemblyStation 8 7 → InsufficientMaterialsError
+Абстрактные Классы (Abstract Classes)
+BaseEmployee 7 3 → HRManager, MachineOperator, MaintenanceTechnician, ProductionSupervisor, QualityInspector, QualityManager, WarehouseWorker
+BaseMachine 4 2 → MachineMaintenance, MaintenanceSchedule, AssemblyStation
+BasePart 4 3 → CarPart, Engine, Transmission, BrakeSystem, ElectricalSystem, SuspensionSystem, CompositePart
 
-## Сотрудники (Employees)
-BaseEmployee 12 9 → InvalidEmployeeDataError
-HRManager 9 8 → BaseEmployee
-MachineOperator 7 6 → BaseEmployee
-MaintenanceTechnician 11 9 → BaseEmployee
-ProductionSupervisor 11 9 → BaseEmployee
-QualityInspector 9 7 → BaseEmployee
-WarehouseWorker 8 7 → BaseEmployee
-QualityManager 11 9 → BaseEmployee
+Сотрудники Завода (Employees)
+HRManager 5 3 → BaseEmployee, FactoryBuilding
+MachineOperator 4 3 → BaseEmployee, ProductionLine, CarPart
+MaintenanceTechnician 5 3 → BaseEmployee, RepairTicket, MaintenanceLog
+ProductionSupervisor 5 3 → BaseEmployee, ProductionLine, QualityControl
+QualityInspector 8 3 → BaseEmployee, CarPart, QualityStandard
+QualityManager 4 2 → BaseEmployee
+WarehouseWorker 4 3 → BaseEmployee, Warehouse, InventoryItem
 
-## Финансы (Finance)
-Transaction 8 6 → InsufficientFundsError
-Invoice 7 5 →
-Payment 9 6 →
-Budget 10 7 → BudgetExceededError
-FinancialReport 12 6 →
-CostAnalysis 8 6 →
+Производство (Production)
+CarPart 6 4 → BasePart, ProductionLine
+Engine 19 14 → CarPart, Budget, QualityStandard
+Transmission 6 4 → CarPart, ProductionLine
+BrakeSystem 6 4 → CarPart, QualityStandard
+ElectricalSystem 5 4 → CarPart
+SuspensionSystem 5 3 → CarPart
+CompositePart 4 2 → CarPart
+ProductionLine 5 3 → MachineOperator, CarPart
+PartFactory 4 4 → Engine, CarPart
+AssemblyStation 4 2 → BaseMachine
+DefectReport 5 3 → CarPart, QualityInspector
 
-## Инвентарь (Inventory)
-InventoryItem 10 8 → StockLevelCriticalError
-RawMaterial 11 9 → InventoryItem
-Warehouse 8 7 → WarehouseCapacityExceededError, StockLevelCriticalError
-Supplier 8 5 →
-ReorderAlert 8 6 → InventoryItem
-StockMovement 8 5 → InventoryItem
+Инвентарь и Склады (Inventory & Warehouses)
+InventoryItem 7 4 → Warehouse, Supplier
+RawMaterial 4 3 → InventoryItem
+Warehouse 6 4 → WarehouseWorker
+Supplier 5 3 → RawMaterial, Invoice
+ReorderAlert 5 2 → InventoryItem
+StockMovement 4 2 → InventoryItem
+StorageFacility 5 3 → Warehouse
 
-## Контроль Качества (Quality)
-QualityControl 8 5 → QualityStandardViolationError
-QualityStandard 10 8 → CarPart
-Equipment 8 6 →
-DefectReport 10 8 → CarPart, QualityInspector
+Финансы (Finance)
+Budget 15 12 → FinancialReport, CostAnalysis, Payment, Department
+Transaction 4 3 → Budget, PaymentProcessor
+Invoice 5 3 → Supplier, Payment
+Payment 5 3 → Invoice, PaymentProcessor
+FinancialReport 6 4 → Budget
+CostAnalysis 5 4 → Budget
+PaymentProcessor 6 5 → Transaction, Payment
+CalculationUtils 5 5 → Budget, Transaction
 
-## Обслуживание (Maintenance)
-MachineMaintenance 11 8 → MachineMaintenanceRequiredError
-MaintenanceSchedule 11 8 →
-MaintenanceLog 11 9 →
-RepairTicket 11 8 →
+Качество и Контроль (Quality Control)
+QualityControl 4 3 → QualityInspector, CarPart
+QualityStandard 7 6 → CarPart, QualityManager
+Equipment 4 3 → QualityControl, MaintenanceTechnician
 
-## Здания и Помещения (Facilities)
-FactoryBuilding 10 6 →
-ProductionHall 9 7 →
-StorageFacility 9 7 →
-SafetySystem 10 7 →
+Обслуживание и Ремонт (Maintenance & Repair)
+MachineMaintenance 4 3 → BaseMachine, MaintenanceTechnician
+MaintenanceLog 6 5 → MachineMaintenance, MaintenanceTechnician
+MaintenanceSchedule 4 2 → BaseMachine
+RepairTicket 4 2 → BaseMachine
 
-## Исключения (Exceptions)
-EmployeeException 1 1 →
-InvalidEmployeeDataError 1 1 → EmployeeException
+Производственные Помещения (Factory Facilities)
+FactoryBuilding 4 3 → ProductionHall
+ProductionHall 4 3 → FactoryBuilding, ProductionLine
+SafetySystem 3 2 → FactoryBuilding
 
-FinanceException 1 1 →
-InsufficientFundsError 1 1 → FinanceException
-BudgetExceededError 1 1 → FinanceException
+Утилиты и Сервисы (Utilities & Services)
+DateUtils 5 5 → FinancialReport, MaintenanceLog
+Logger 4 4 → Все классы системы
+ValidationUtils 6 6 → BaseEmployee, CarPart
+AdvancedValidator 7 6 → ValidationUtils
 
-InventoryException 1 1 →
-StockLevelCriticalError 1 1 → InventoryException
-WarehouseCapacityExceededError 1 1 → InventoryException
+Демонстрация и Конфигурация (Demo & Config)
+CarFactoryDemo 15 10 → Все основные классы
+Constants 0 0 → Все классы системы
 
-ProductionException 1 1 →
-ProductionCapacityExceededError 1 1 → ProductionException
-MachineMaintenanceRequiredError 1 1 → ProductionException
-InsufficientMaterialsError 1 1 → ProductionException
+Исключения (Exceptions)
+MachineMaintenanceRequiredError 1 1 → BaseMachine
+QualityStandardViolationError 1 1 → BasePart, QualityStandard
+StockLevelCriticalError 1 1 → InventoryItem
+InspectionFailedError 1 1 → QualityInspector
+DefectivePartError 1 1 → CarPart
+ProductionException 1 1 → ProductionLine
+FinanceException 1 1 → Budget
 
-QualityException 1 1 →
-DefectivePartError 1 1 → QualityException
-QualityStandardViolationError 1 1 → QualityException
-InspectionFailedError 1 1 → QualityException
+СВОДНАЯ СТАТИСТИКА
 
-## Утилиты (Utilities)
-AdvancedValidator 5 5 →
-CalculationUtils 5 5 →
-DateUtils 6 6 →
-Logger 5 5 →
-PaymentProcessor 7 5 → InsufficientFundsError
-ValidationUtils 5 5 →
+Поля: 171
+Поведения: 107
+Ассоциации: 38
+Классы: 51
 
-## Абстрактные Классы (Abstract)
-BasePart 11 8 → QualityStandardViolationError
-BaseMachine 8 6 → MachineMaintenanceRequiredError
-IProducible 1 1 →
-IQualityCheckable 1 1 →
-IFinancialEntity 1 1 →
-
-## Демонстрация (Demo)
-CarFactoryDemo 13 12 → HRManager, MachineOperator, MaintenanceTechnician, ProductionSupervisor, QualityInspector, WarehouseWorker, ProductionLine, Engine, Transmission, Warehouse, Transaction, Budget, QualityControl, MachineMaintenance, RepairTicket, FactoryBuilding
-
-## Конфигурация (Config)
-constants 61 0 →
-
----
-
-## Сводка
-Поля: 576
-Поведения: 419
-Ассоциации: 115
-Исключения: 14
-
-## Статистика по категориям:
-1. Производство: 10 классов, 80 полей, 70 поведений
-2. Сотрудники: 8 классов, 85 полей, 71 поведение
-3. Финансы: 6 классов, 54 поля, 36 поведений
-4. Инвентарь: 6 классов, 53 поля, 41 поведение
-5. Качество: 4 класса, 36 полей, 27 поведений
-6. Обслуживание: 4 класса, 43 поля, 33 поведения
-7. Помещения: 4 класса, 38 полей, 27 поведений
-8. Исключения: 5 категорий, 14 классов
-9. Утилиты: 6 классов, 33 поля, 31 поведение
-10. Абстрактные: 5 классов, 22 поля, 20 поведений
-
-Общая сложность системы: высокая с хорошо структурированным наследованием и обработкой исключений.
+Исключения: 7
