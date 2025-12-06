@@ -59,7 +59,7 @@ class Budget:
         """Распределить бюджет на основе стандартных ставок"""
         salary_allocation = self._total * constants.EMPLOYEE_SALARY_TAX_RATE
         tax_allocation = self._total * constants.STANDARD_TAX_RATE
-        materials_allocation = self._total * constants.MATERIAL_COST_MULTIPLIER / 100  # 10% от бюджета
+        materials_allocation = self._total * constants.MATERIAL_COST_MULTIPLIER / 100  
 
         return {
             "salaries": salary_allocation,
@@ -79,4 +79,5 @@ class Budget:
             return "WARNING"
         else:
             return "HEALTHY"
+
 
