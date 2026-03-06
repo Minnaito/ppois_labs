@@ -1,0 +1,19 @@
+class CadastralError(Exception):
+    """Базовое исключение предметной области."""
+    pass
+
+class ValidationError(CadastralError):
+    """Ошибка валидации данных."""
+    pass
+
+class NotFoundError(CadastralError):
+    """Сущность не найдена."""
+    pass
+
+class DuplicateError(CadastralError):
+    """Дублирование уникальных данных."""
+    pass
+
+class PermissionDeniedError(CadastralError):
+    """Недостаточно прав для выполнения операции."""
+    pass
