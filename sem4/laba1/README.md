@@ -43,14 +43,14 @@
 
 ### 1. Модели предметной области (Domain Models)
 models/
-├── base_model.py # Абстрактный базовый класс с UUID
-├── dokument.py # Абстрактный класс документа
-├── kadastrovyj_nomer.py # Кадастровый номер
-├── objekt_nedvizhimosti.py # Базовый класс объекта недвижимости
-├── pravo_ustanavlivayushchij_dokument.py # Правоустанавливающий документ
-├── vladeshec.py # Владелец
-├── zdanie.py # Здание (наследует objekt_nedvizhimosti)
-└── zemelnyj_uchastok.py # Земельный участок (наследует objekt_nedvizhimosti)
+- base_model.py # Абстрактный базовый класс с UUID
+- dokument.py # Абстрактный класс документа
+- kadastrovyj_nomer.py # Кадастровый номер
+- objekt_nedvizhimosti.py # Базовый класс объекта недвижимости
+- pravo_ustanavlivayushchij_dokument.py # Правоустанавливающий документ
+- vladeshec.py # Владелец
+- zdanie.py # Здание (наследует objekt_nedvizhimosti)
+- zemelnyj_uchastok.py # Земельный участок (наследует objekt_nedvizhimosti)
 
 
 **Ключевые особенности**:
