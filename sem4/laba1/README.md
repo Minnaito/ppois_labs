@@ -62,11 +62,11 @@ models/
 
 Репозитории отвечают за хранение и загрузку данных:
 services/
-├── base_repository.py # Базовый репозиторий с JSON-сериализацией
-├── cadastral_number_repository.py # Репозиторий кадастровых номеров
-├── object_repository.py # Репозиторий объектов недвижимости
-├── owner_repository.py # Репозиторий владельцев
-└── right_document_repository.py # Репозиторий правоустанавливающих документов
+- base_repository.py # Базовый репозиторий с JSON-сериализацией
+- cadastral_number_repository.py # Репозиторий кадастровых номеров
+- object_repository.py # Репозиторий объектов недвижимости
+- owner_repository.py # Репозиторий владельцев
+- right_document_repository.py # Репозиторий правоустанавливающих документов
 
 
 **Особенности реализации**:
@@ -79,11 +79,11 @@ services/
 
 Сервисы реализуют бизнес-операции и используют репозитории:
 services/
-├── dokument_menedzher.py # Сервис документооборота
-├── kadastrovoe_agentstvo.py # Фасад - главный контроллер
-├── kadastrovyj_uchet.py # Сервис кадастрового учета
-├── number_generator.py # Генератор кадастровых номеров
-└── tekhnicheskiy_uchet.py # Сервис технического учета
+- dokument_menedzher.py # Сервис документооборота
+- kadastrovoe_agentstvo.py # Фасад - главный контроллер
+- kadastrovyj_uchet.py # Сервис кадастрового учета
+- number_generator.py # Генератор кадастровых номеров
+- tekhnicheskiy_uchet.py # Сервис технического учета
 
 
 **Ключевые сервисы**:
@@ -98,7 +98,7 @@ services/
 
 Иерархия исключений предметной области:
 exceptions/
-└── exceptions.py
+- exceptions.py
 
 
 - **CadastralError** - базовое исключение
