@@ -19,7 +19,6 @@ class Game:
         self.init_parallax()
         self.init_bullet_icons()
 
-        # Группы спрайтов
         self.all_sprites = pygame.sprite.Group()
         self.chickens = pygame.sprite.Group()
         self.bullet_holes = pygame.sprite.Group()
@@ -27,7 +26,6 @@ class Game:
         self.crosshair = Crosshair()
         self.all_sprites.add(self.crosshair)
 
-        # Игровые параметры
         self.score = 0
         self.time_left = self.config['game_time']
         self.ammo = self.config['max_ammo']
@@ -37,14 +35,11 @@ class Game:
         self.is_reloading = False
         self.game_over_triggered = False
 
-        # Визуальные эффекты
         self.time_warning_alpha = 0
         self.time_warning_direction = 1
 
-        # Для параллакса - отслеживаем движение мыши
         self.last_mouse_x = SCREEN_WIDTH // 2
 
-        # Шрифты
         try:
             self.font = pygame.font.Font(FONT_PATH, 36)
             self.small_font = pygame.font.Font(FONT_PATH, 24)
@@ -58,16 +53,13 @@ class Game:
         self.paused = False
 
     def load_config(self):
-        """Загрузка конфигурации."""
         with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
             self.config = json.load(f)
 
     def init_parallax(self):
-        """Инициализация параллакс фона."""
         self.parallax_bg = ParallaxBackground()
 
     def init_sounds(self):
-        """Инициализация звуков."""
         pygame.mixer.init()
 
         self.gunshot = None
@@ -117,7 +109,6 @@ class Game:
             print(f"Не удалось загрузить фоновую музыку: {e}")
 
     def init_bullet_icons(self):
-        """Загрузка иконок патронов."""
         try:
             self.bullet_img = pygame.image.load(BULLET_ICON)
             self.bullet_img = pygame.transform.scale(self.bullet_img, (24, 36))
@@ -133,7 +124,6 @@ class Game:
             self.bullet_empty_img = pygame.Surface((24, 36), pygame.SRCALPHA)
 
     def spawn_chicken(self):
-        """Создание новой курицы с края экрана."""
         level = random.choice(self.config['levels'])
         chicken = Chicken(level)
 
@@ -144,7 +134,6 @@ class Game:
         self.all_sprites.add(chicken)
 
     def handle_events(self):
-        """Обработка событий."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -161,7 +150,6 @@ class Game:
                     self.start_reload()
 
     def update_parallax(self):
-        """Обновление параллакс фона на основе движения мыши."""
         mouse_x, mouse_y = pygame.mouse.get_pos()
 
         dx = mouse_x - self.last_mouse_x
@@ -173,7 +161,6 @@ class Game:
         self.last_mouse_x = mouse_x
 
     def shoot(self):
-        """Обработка выстрела."""
         if self.is_reloading:
             if self.empty_gun_sound:
                 self.empty_gun_sound.play()
@@ -190,12 +177,10 @@ class Game:
         self.ammo -= 1
         pos = pygame.mouse.get_pos()
 
-        # Проверка попадания в деревья
         if self.parallax_bg.check_shot(pos):
             self.parallax_bg.add_bullet_hole(pos)
             return
 
-        # Проверка попадания в кур
         hits = []
         for chicken in self.chickens:
             if chicken.rect.collidepoint(pos) and not chicken.falling:
@@ -208,7 +193,6 @@ class Game:
             chicken.hit()
 
     def start_reload(self):
-        """Начало перезарядки."""
         if not self.is_reloading and self.ammo < self.max_ammo:
             self.is_reloading = True
             self.reload_timer = self.reload_time * FPS
@@ -216,7 +200,6 @@ class Game:
                 self.reload_sound.play()
 
     def update_reload(self):
-        """Обновление перезарядки."""
         if self.is_reloading:
             self.reload_timer -= 1
             if self.reload_timer <= 0:
@@ -224,7 +207,6 @@ class Game:
                 self.is_reloading = False
 
     def update_time_warning(self):
-        """Эффект предупреждения о времени."""
         if self.time_left <= 10:
             self.time_warning_alpha += self.time_warning_direction * 5
             if self.time_warning_alpha >= 255:
@@ -235,7 +217,6 @@ class Game:
                 self.time_warning_direction = 1
 
     def update(self):
-        """Обновление игровой логики."""
         if not self.paused:
             self.update_parallax()
             self.all_sprites.update()
@@ -253,7 +234,6 @@ class Game:
                 self.time_up()
 
     def time_up(self):
-        """Действия при окончании времени."""
         pygame.mixer.music.stop()
 
         if self.time_up_sound:
@@ -269,7 +249,6 @@ class Game:
         self.game_over()
 
     def draw_time_up(self):
-        """Отрисовка экрана окончания времени."""
         self.parallax_bg.draw_background(self.screen)
         self.chickens.draw(self.screen)
         self.parallax_bg.draw_trees(self.screen)
@@ -287,7 +266,6 @@ class Game:
         self.draw_hud()
 
     def draw_hud(self):
-        """Отрисовка интерфейса."""
         score_text = self.font.render(f"Очки: {self.score}", True, WHITE)
         self.screen.blit(score_text, (20, 20))
 
@@ -330,7 +308,6 @@ class Game:
             self.screen.blit(warning, warn_rect)
 
     def draw(self):
-        """Отрисовка игры."""
         self.parallax_bg.draw_background(self.screen)
         self.chickens.draw(self.screen)
         self.parallax_bg.draw_trees(self.screen)
@@ -340,13 +317,11 @@ class Game:
         pygame.display.flip()
 
     def game_over(self):
-        """Завершение игры."""
         if self.record_manager.is_highscore(self.score):
             self.enter_name()
         self.running = False
 
     def enter_name(self):
-        """Ввод имени для рекорда."""
         name = ""
         try:
             font = pygame.font.Font(FONT_PATH, 48)
@@ -390,7 +365,6 @@ class Game:
                             name += event.unicode
 
     def run(self):
-        """Главный игровой цикл."""
         while self.running:
             self.handle_events()
             self.update()
