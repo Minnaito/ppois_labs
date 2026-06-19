@@ -134,3 +134,11 @@
 | menu_music.mp3 | Главное меню | 30% |
 | background_music.mp3 | Игровой процесс | 30% |
 
+### Скриншоты
+
+![Меню](images/2.png)
+![3](images/3.png)
+![4](images/4.png)
+![5](images/5.png)
+![6](images/6.png)
+![7](images/7.png)
