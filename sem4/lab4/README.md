@@ -64,3 +64,73 @@
 | JSON | Формат хранения данных |
 
 ## Структура проекта
+cadastre/
+├── app.py # Главный файл приложения
+├── models/ # Модели данных
+│ ├── cadastral_number.py # Кадастровый номер
+│ ├── object.py # Абстрактный объект
+│ ├── zdanie.py # Здание
+│ ├── zemelnyj_uchastok.py # Земельный участок
+│ ├── vladetel.py # Владелец
+│ ├── document.py # Правоустанавливающий документ
+│ ├── pravovoy_document.py # Документ о праве
+│ └── technical_passport.py # Технический паспорт
+│
+├── services/ # Сервисный слой
+│ ├── kadastrovoe_agentstvo.py # Главный класс агентства
+│ ├── object_repository.py # Репозиторий объектов
+│ ├── owner_repository.py # Репозиторий владельцев
+│ └── right_repository.py # Репозиторий прав
+│
+├── exceptions/ # Исключения
+│ └── exceptions.py
+│
+├── data/ # JSON-файлы данных
+│ ├── objects.json
+│ ├── owners.json
+│ └── rights.json
+│
+├── templates/ # HTML-шаблоны
+│ ├── base.html # Базовый шаблон
+│ ├── index.html # Главная
+│ ├── owners.html # Владельцы
+│ ├── objects.html # Объекты
+│ ├── rights.html # Регистрация прав
+│ ├── extract.html # Выписка
+│ ├── create_owner.html # Создание владельца
+│ ├── create_land.html # Создание участка
+│ ├── create_building.html # Создание здания
+│ └── technical_accounting.html # Технический учёт
+│
+├── static/
+│ └── css/
+│ └── style.css # Стили
+│
+├── requirements.txt
+└── README.md
+
+
+## Маршруты API
+
+### Страницы (HTML)
+
+| Метод | URL | Назначение |
+|-------|-----|------------|
+| GET | `/` | Главная страница |
+| GET | `/owners` | Список владельцев |
+| GET | `/objects` | Список объектов |
+| GET | `/rights` | Регистрация прав |
+| GET | `/extract` | Выписка из ЕГРН |
+
+### API эндпоинты (Flask Routes)
+
+| Метод | URL | Назначение |
+|-------|-----|------------|
+| POST | `/owner/create` | Создать владельца |
+| POST | `/object/create/land` | Создать участок |
+| POST | `/object/create/building` | Создать здание |
+| POST | `/right/register` | Зарегистрировать право |
+| POST | `/cadastral/assign/<id>` | Присвоить кадастровый номер |
+| GET/POST | `/technical/accounting/<id>` | Технический учёт |
+| GET/POST | `/extract` | Получить выписку |
+| POST | `/document/update/<id>` | Обновить документацию |
