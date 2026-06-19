@@ -1,0 +1,32 @@
+{
+    "game_time": 60,
+    "max_ammo": 8,
+    "reload_time": 1.5,
+    "chicken_spawn_rate": 0.02,
+    "levels": [
+        {
+            "name": "near",
+            "scale": 1.0,
+            "points": 10,
+            "speed": 4,
+            "width": 100,
+            "height": 100
+        },
+        {
+            "name": "mid",
+            "scale": 0.7,
+            "points": 20,
+            "speed": 3,
+            "width": 90,
+            "height": 90
+        },
+        {
+            "name": "far",
+            "scale": 0.5,
+            "points": 30,
+            "speed": 2,
+            "width": 70,
+            "height": 70
+        }
+    ]
+}
