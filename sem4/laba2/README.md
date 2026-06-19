@@ -62,13 +62,13 @@
 
 | № | Операция | Реализация в коде |
 |---|----------|-------------------|
-| 1 | Добавление товара | `AddProductDialog`, метод `add_product` контроллера, `ProductList.add_product` |
-| 2 | Просмотр всех товаров | `MainWindow.update_table`, `ProductList.get_page` с пагинацией |
-| 3 | Поиск товаров | `SearchDialog` с группировкой условий (И/ИЛИ), `ProductList.search` |
-| 4 | Удаление товаров | `DeleteDialog` с аналогичной логикой, `ProductList.delete_by_criteria` |
-| 5 | Экспорт в XML | `XMLWriter.write_to_file` (DOM), метод `save_to_file` контроллера |
-| 6 | Импорт из XML | `XMLReader.read_from_file` (SAX), метод `load_from_file` контроллера |
-| 7 | Пагинация | Классы `MainWindow` и `SearchDialog`, методы `first_page`, `previous_page`, `next_page`, `last_page`, `go_to_page` |
+| 1 | Добавление товара | `add_product_dialog`, метод `add_product` контроллера, `product_list.add_product` |
+| 2 | Просмотр всех товаров | `main_window.update_table`, `product_list.get_page` с пагинацией |
+| 3 | Поиск товаров | `search_dialog` с группировкой условий (И/ИЛИ), `product_list.search` |
+| 4 | Удаление товаров | `delete_dialog` с аналогичной логикой, `product_list.delete_by_criteria` |
+| 5 | Экспорт в XML | `xml_writer.write_to_file` (DOM), метод `save_to_file` контроллера |
+| 6 | Импорт из XML | `xml_reader.read_from_file` (SAX), метод `load_from_file` контроллера |
+| 7 | Пагинация | Классы `main_window` и `search_dialog`, методы `first_page`, `previous_page`, `next_page`, `last_page`, `go_to_page` |
 | 8 | Смена количества записей на странице | `change_rows_per_page`, `_change_rows_per_page` |
 
 ## Графический интерфейс  
