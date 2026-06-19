@@ -5,7 +5,6 @@ from constants import *
 
 
 class Chicken(pygame.sprite.Sprite):
-    """Класс курицы с анимацией полёта и падения."""
 
     def __init__(self, level_config, x=None, y=None):
         super().__init__()
@@ -15,13 +14,11 @@ class Chicken(pygame.sprite.Sprite):
         self.speed = level_config['speed']
         self.scale = level_config['scale']
 
-        # Размеры из конфига
         self.base_width = level_config.get('width', 80)
         self.base_height = level_config.get('height', 80)
         self.width = int(self.base_width * self.scale)
         self.height = int(self.base_height * self.scale)
 
-        # Загрузка изображений для анимации полёта
         self.fly_frames = []
         for i in range(1, 3):
             img_path = os.path.join(IMAGES_DIR, f'chicken_{self.level}_fly{i}.png')
@@ -39,14 +36,12 @@ class Chicken(pygame.sprite.Sprite):
         self.dead_image = pygame.image.load(dead_image_path)
         self.dead_image = pygame.transform.scale(self.dead_image, (self.width, self.height))
 
-        # Анимация
         self.current_frame = 0
         self.animation_speed = 10
         self.animation_counter = 0
         self.image = self.fly_frames[self.current_frame]
         self.rect = self.image.get_rect()
 
-        # Спавн
         if x is None:
             side = random.choice(['left', 'right'])
             if side == 'left':
@@ -64,7 +59,6 @@ class Chicken(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
-        # ОТРАЖЕНИЕ КАРТИНОК
         if self.direction == 1:
             pass
         else:
@@ -79,18 +73,15 @@ class Chicken(pygame.sprite.Sprite):
 
     def update(self):
         if self.falling:
-            # Анимация падения
             self.rect.y += self.fall_speed
             self.fall_speed += 0.5
             if self.rect.top > SCREEN_HEIGHT:
                 self.kill()
         else:
-            # Движение
             self.rect.x += self.direction * self.speed
             if self.rect.right < 0 or self.rect.left > SCREEN_WIDTH:
                 self.kill()
 
-            # Анимация взмахов крыльев
             self.animation_counter += 1
             if self.animation_counter >= self.animation_speed:
                 self.animation_counter = 0
@@ -98,14 +89,12 @@ class Chicken(pygame.sprite.Sprite):
                 self.image = self.fly_frames[self.current_frame]
 
     def hit(self):
-        """Попадание в курицу."""
         self.alive = False
         self.falling = True
         self.image = self.dead_image
 
 
 class Crosshair(pygame.sprite.Sprite):
-    """Прицел (следует за мышью)."""
 
     def __init__(self):
         super().__init__()
@@ -114,6 +103,5 @@ class Crosshair(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def update(self):
-        """Прицел следует за мышью."""
         self.rect.center = pygame.mouse.get_pos()
         pygame.mouse.set_visible(False)
