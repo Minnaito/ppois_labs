@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY CADASTRE - Регистрация прав</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="MY CADASTRE" class="logo-img">
+                <span class="logo-text">MY CADASTRE</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="/">Главная</a>
+                <a href="/owners">Владельцы</a>
+                <a href="/objects">Объекты</a>
+                <a href="/rights">Регистрация прав</a>
+                <a href="/extract">Выписка</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="rights-banner">
+        <div class="banner-content">
+            <h1>Регистрация прав</h1>
+            <p>Оформление права собственности, аренды и наследства</p>
+        </div>
+    </div>
+
+    <main class="rights-main">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="rights-container">
+            <div class="content-card">
+                <div class="form-container" style="max-width: 600px; margin-bottom: 40px;">
+                    <h3>Зарегистрировать новое право</h3>
+                    <form method="POST" action="/right/register">
+                        <div class="form-group">
+                            <label>Объект недвижимости *</label>
+                            <select name="objekt_id" required>
+                                <option value="">Выберите объект...</option>
+                                {% for obj in objects %}
+                                    <option value="{{ obj.uid }}">{{ obj.adres }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Владелец *</label>
+                            <select name="owner_id" required>
+                                <option value="">Выберите владельца...</option>
+                                {% for owner in owners %}
+                                    <option value="{{ owner.uid }}">{{ owner.fio }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Номер документа *</label>
+                            <input type="text" name="doc_nomer" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Дата выдачи (ДД.ММ.ГГГГ) *</label>
+                            <input type="text" name="doc_data" placeholder="15.03.2023" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Орган выдачи *</label>
+                            <select name="doc_organ" required>
+                                <option>Суд</option>
+                                <option>Нотариус</option>
+                                <option>Росреестр</option>
+                                <option>Орган местного самоуправления</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Тип права *</label>
+                            <select name="tip_prava" required>
+                                <option value="sobstvennost">Собственность</option>
+                                <option value="arenda">Аренда</option>
+                                <option value="nasledstvo">Наследство</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Доля в праве (0.01-1) *</label>
+                            <input type="number" step="0.01" name="dolya" min="0.01" max="1" required>
+                        </div>
+                        <button type="submit" class="btn-submit">Зарегистрировать</button>
+                    </form>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <h3 style="text-align: center; margin-bottom: 20px;">Зарегистрированные права</h3>
+                    {% if rights %}
+                        <div class="rights-list">
+                            {% for doc in rights %}
+                            <div class="object-card">
+                                <h3>Документ: {{ doc.nomer_dokumenta }}</h3>
+                                <div class="object-info">
+                                    <p><strong>Тип права:</strong>
+                                        {% if doc.tip_prava == 'sobstvennost' %}Собственность
+                                        {% elif doc.tip_prava == 'arenda' %}Аренда
+                                        {% else %}Наследство{% endif %}
+                                    </p>
+                                    <p><strong>Доля:</strong> {{ (doc.dolya_v_prave * 100)|int }}%</p>
+                                    <p><strong>Дата выдачи:</strong> {{ doc.data_vydachi }}</p>
+                                    <p><strong>Орган:</strong> {{ doc.organ_vydachi }}</p>
+                                    <p><strong>Объект:</strong> {{ doc.svyazannyj_objekt.adres }}</p>
+                                    <p><strong>Владельцы:</strong>
+                                        {% for owner in doc.spisok_vladelcev %}
+                                            {{ owner.fio }}{% if not loop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="empty-state">
+                            <p>Нет зарегистрированных прав.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 MY CADASTRE — Кадастровое агентство</p>
+        <p>Регистрация прав, кадастровый учет, оценка и адресация</p>
+    </footer>
+</body>
+</html>

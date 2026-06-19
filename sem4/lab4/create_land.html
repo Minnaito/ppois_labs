@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY CADASTRE - Создание участка</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="MY CADASTRE" class="logo-img">
+                <span class="logo-text">MY CADASTRE</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="/">Главная</a>
+                <a href="/owners">Владельцы</a>
+                <a href="/objects">Объекты</a>
+                <a href="/rights">Регистрация прав</a>
+                <a href="/extract">Выписка</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="content-page">
+            <div class="page-header">
+                <h1>Создание земельного участка</h1>
+                <a href="/objects" class="btn-service">← Назад к объектам</a>
+            </div>
+
+            <div class="form-container" style="margin: 0 auto;">
+                <form method="POST" action="/object/create/land">
+                    <div class="form-group">
+                        <label>Адрес *</label>
+                        <input type="text" name="adres" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Площадь (м²) *</label>
+                        <input type="number" step="0.01" name="ploshchad" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Категория земель *</label>
+                        <select name="kategoriya" required>
+                            <option value=""></option>
+                            <option>Сельскохозяйственное назначение</option>
+                            <option>Населённые пункты</option>
+                            <option>Промышленное назначение</option>
+                            <option>Особо охраняемые территории</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Вид разрешенного использования *</label>
+                        <select name="vid" required>
+                            <option value=""></option>
+                            <option>ИЖС</option>
+                            <option>ЛПХ</option>
+                            <option>Садоводство</option>
+                            <option>Коммерческая</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-submit">Создать участок</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 MY CADASTRE — Кадастровое агентство</p>
+        <p>Регистрация прав, кадастровый учет, оценка и адресация</p>
+    </footer>
+</body>
+</html>

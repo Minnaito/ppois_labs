@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY CADASTRE - Выписка из ЕГРН</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="MY CADASTRE" class="logo-img">
+                <span class="logo-text">MY CADASTRE</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="/">Главная</a>
+                <a href="/owners">Владельцы</a>
+                <a href="/objects">Объекты</a>
+                <a href="/rights">Регистрация прав</a>
+                <a href="/extract">Выписка</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="extract-banner">
+        <div class="banner-content">
+            <h1>Выписка из ЕГРН</h1>
+            <p>Получение информации из Единого государственного реестра недвижимости</p>
+        </div>
+    </div>
+
+    <main class="extract-main">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="extract-container">
+            <div class="content-card">
+                <div class="extract-search-box">
+                    <h3>Поиск по кадастровому номеру</h3>
+                    <form method="POST" action="/extract">
+                        <div class="search-form">
+                            <input type="text"
+                                   name="kadastrovyj_nomer"
+                                   placeholder="Введите кадастровый номер (77:01:000123:001)"
+                                   required>
+                            <button type="submit" class="btn-search">Получить выписку</button>
+                        </div>
+                    </form>
+                </div>
+
+                {% if extract_text %}
+                <div class="extract-result">
+                    <h3>Результат запроса</h3>
+                    <div class="extract-content">
+                        <pre>{{ extract_text }}</pre>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if objects_with_numbers %}
+                <div class="objects-with-numbers">
+                    <h3>Объекты с кадастровыми номерами:</h3>
+                    <div class="objects-list">
+                        {% for obj in objects_with_numbers %}
+                            <div class="object-item">
+                                <span class="cad-number">{{ obj.kadastrovyj_nomer.polnoe_znachenie }}</span>
+                                <span class="object-address">{{ obj.adres }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <p>В системе пока нет объектов с присвоенными кадастровыми номерами.</p>
+                    <p style="margin-top: 10px; font-size: 13px;">Сначала создайте объект и присвойте ему кадастровый номер.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 MY CADASTRE — Кадастровое агентство</p>
+        <p>Регистрация прав, кадастровый учет, оценка и адресация</p>
+    </footer>
+</body>
+</html>

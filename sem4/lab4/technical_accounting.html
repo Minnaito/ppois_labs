@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY CADASTRE - Технический учёт</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="MY CADASTRE" class="logo-img">
+                <span class="logo-text">MY CADASTRE</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="/">Главная</a>
+                <a href="/owners">Владельцы</a>
+                <a href="/objects">Объекты</a>
+                <a href="/rights">Регистрация прав</a>
+                <a href="/extract">Выписка</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="content-page">
+            <div class="page-header">
+                <h1>Технический учёт</h1>
+                <a href="/objects" class="btn-service">← Назад к объектам</a>
+            </div>
+
+            <div class="tech-form-container">
+                <div class="object-info-box">
+                    <p><strong>Объект:</strong> {{ obj.adres }}</p>
+                    <p><strong>Тип:</strong> {% if obj.__class__.__name__ == 'zdanie' %}Здание{% else %}Земельный участок{% endif %}</p>
+                </div>
+
+                <form method="POST">
+                    <div class="form-section">
+                        <h3>Основные характеристики</h3>
+                        <div class="form-group">
+                            <label for="adres">Новый адрес</label>
+                            <input type="text" id="adres" name="adres" placeholder="Оставьте пустым для пропуска">
+                            <small class="form-hint">Изменить адрес объекта</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="ploshchad">Новая площадь (м²)</label>
+                            <input type="number" step="0.01" id="ploshchad" name="ploshchad" placeholder="Оставьте пустым для пропуска">
+                            <small class="form-hint">Изменить площадь объекта</small>
+                        </div>
+                    </div>
+
+                    {% if obj.__class__.__name__ == 'zdanie' %}
+                        <div class="form-section">
+                            <h3>Характеристики здания</h3>
+                            <div class="form-group">
+                                <label for="kolichestvo_etazhej">Количество этажей</label>
+                                <input type="number" id="kolichestvo_etazhej" name="kolichestvo_etazhej">
+                            </div>
+                            <div class="form-group">
+                                <label for="material_sten">Материал стен</label>
+                                <input type="text" id="material_sten" name="material_sten" placeholder="Кирпич, панель, монолит и т.д.">
+                            </div>
+                            <div class="form-group">
+                                <label for="naznachenie">Назначение</label>
+                                <select id="naznachenie" name="naznachenie">
+                                    <option value="">Не менять</option>
+                                    <option value="zhiloe">Жилое</option>
+                                    <option value="nezhiloe">Нежилое</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="god_postrojki">Год постройки</label>
+                                <input type="number" id="god_postrojki" name="god_postrojki" min="1800" max="2026">
+                            </div>
+                            <div class="form-group">
+                                <label for="fizicheskij_iznos">Физический износ (%)</label>
+                                <input type="number" id="fizicheskij_iznos" name="fizicheskij_iznos" min="0" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="pozharnaya_bezopasnost">Класс пожарной безопасности</label>
+                                <select id="pozharnaya_bezopasnost" name="pozharnaya_bezopasnost">
+                                    <option value="">Не менять</option>
+                                    <option value="I">I</option>
+                                    <option value="II">II</option>
+                                    <option value="III">III</option>
+                                    <option value="IV">IV</option>
+                                    <option value="V">V</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="energeticheskaya_effektivnost">Класс энергоэффективности</label>
+                                <select id="energeticheskaya_effektivnost" name="energeticheskaya_effektivnost">
+                                    <option value="">Не менять</option>
+                                    <option value="A++">A++</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value="E">E</option>
+                                </select>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="form-section">
+                            <h3>Характеристики участка</h3>
+                            <div class="form-group">
+                                <label for="kategoriya_zemel">Категория земель</label>
+                                <select id="kategoriya_zemel" name="kategoriya_zemel">
+                                    <option value="">Не менять</option>
+                                    <option value="Сельскохозяйственное назначение">Сельскохозяйственное назначение</option>
+                                    <option value="Населённые пункты">Населённые пункты</option>
+                                    <option value="Промышленное назначение">Промышленное назначение</option>
+                                    <option value="Особо охраняемые территории">Особо охраняемые территории</option>
+                                    <option value="Водный фонд">Водный фонд</option>
+                                    <option value="Лесной фонд">Лесной фонд</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="vid_razreshonnogo_ispolzovaniya">Вид разрешенного использования</label>
+                                <select id="vid_razreshonnogo_ispolzovaniya" name="vid_razreshonnogo_ispolzovaniya">
+                                    <option value="">Не менять</option>
+                                    <option value="ИЖС">ИЖС (Индивидуальное жилищное строительство)</option>
+                                    <option value="ЛПХ">ЛПХ (Личное подсобное хозяйство)</option>
+                                    <option value="Садоводство">Садоводство</option>
+                                    <option value="Огородничество">Огородничество</option>
+                                    <option value="Коммерческая">Коммерческая (торговля, офисы)</option>
+                                    <option value="Промышленная">Промышленная</option>
+                                    <option value="Рекреационная">Рекреационная (отдых, туризм)</option>
+                                </select>
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="nalichie_postroek" value="true">
+                                    <span>Наличие построек на участке</span>
+                                </label>
+                                <small class="form-hint">Отметьте, если на участке есть здания/сооружения</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="sostoyanie">Состояние участка</label>
+                                <select id="sostoyanie" name="sostoyanie">
+                                    <option value="">Не менять</option>
+                                    <option value="Отличное">Отличное</option>
+                                    <option value="Хорошее">Хорошее</option>
+                                    <option value="Удовлетворительное">Удовлетворительное</option>
+                                    <option value="Неудовлетворительное">Неудовлетворительное</option>
+                                </select>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit">Провести технический учёт</button>
+                        <a href="/objects" class="btn-cancel">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 MY CADASTRE — Кадастровое агентство</p>
+        <p>Регистрация прав, кадастровый учет, оценка и адресация</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY CADASTRE - Владельцы</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="MY CADASTRE" class="logo-img">
+                <span class="logo-text">MY CADASTRE</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="/">Главная</a>
+                <a href="/owners">Владельцы</a>
+                <a href="/objects">Объекты</a>
+                <a href="/rights">Регистрация прав</a>
+                <a href="/extract">Выписка</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="owners-banner">
+        <div class="banner-content">
+            <h1>Управление владельцами</h1>
+            <p>Добавление, просмотр и управление реестром владельцев недвижимости</p>
+        </div>
+    </div>
+
+    <main class="owners-main">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="owners-container">
+            <div class="content-card">
+                {% if owners %}
+                    <table class="owners-table">
+                        <thead>
+                            <tr>
+                                <th>ФИО</th>
+                                <th>Идентификатор</th>
+                                <th>Реквизиты связи</th>
+                                <th>UID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for owner in owners %}
+                            <tr>
+                                <td><strong>{{ owner.fio }}</strong></td>
+                                <td>{{ owner.identificator }}</td>
+                                <td>{{ owner.rekvizity_svyazi }}</td>
+                                <td><code>{{ owner.uid[:8] }}...</code></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <p class="owners-count">Всего владельцев: {{ owners|length }}</p>
+                {% else %}
+                    <div class="empty-state">
+                        <p>В системе пока нет зарегистрированных владельцев.</p>
+                    </div>
+                {% endif %}
+
+                <div class="form-container">
+                    <h3>Добавить нового владельца</h3>
+                    <form method="POST" action="/owner/create">
+                        <div class="form-group">
+                            <label>Идентификатор (ИНН/Паспорт) *</label>
+                            <input type="text" name="identificator" required>
+                        </div>
+                        <div class="form-group">
+                            <label>ФИО *</label>
+                            <input type="text" name="fio" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Реквизиты связи *</label>
+                            <input type="text" name="rekvizity" required>
+                        </div>
+                        <button type="submit" class="btn-submit">Создать владельца</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 MY CADASTRE — Кадастровое агентство</p>
+        <p>Регистрация прав, кадастровый учет, оценка и адресация</p>
+    </footer>
+</body>
+</html>

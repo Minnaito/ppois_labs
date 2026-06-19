@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация права собственности{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-warning">
+                <h4 class="mb-0">Регистрация права собственности</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="objekt_id" class="form-label">Объект недвижимости <span class="text-danger">*</span></label>
+                        <select class="form-select" id="objekt_id" name="objekt_id" required>
+                            <option value="">Выберите объект...</option>
+                            {% for obj in objects %}
+                                <option value="{{ obj.uid }}">
+                                    {% if obj.__class__.__name__ == 'Zdanie' %}{% else %}{% endif %}
+                                    {{ obj.adres }} (UID: {{ obj.uid[:8] }}...)
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="owner_id" class="form-label">Владелец <span class="text-danger">*</span></label>
+                        <select class="form-select" id="owner_id" name="owner_id" required>
+                            <option value="">Выберите владельца...</option>
+                            {% for owner in owners %}
+                                <option value="{{ owner.uid }}">{{ owner.fio }} ({{ owner.identificator }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <hr>
+                    <h5>Правоустанавливающий документ</h5>
+
+                    <div class="mb-3">
+                        <label for="doc_nomer" class="form-label">Номер документа <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="doc_nomer" name="doc_nomer" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="doc_data" class="form-label">Дата выдачи <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="doc_data" name="doc_data" placeholder="ДД.ММ.ГГГГ" required>
+                        <div class="form-text">Например: 15.03.2023</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="doc_organ" class="form-label">Орган выдачи <span class="text-danger">*</span></label>
+                        <select class="form-select" id="doc_organ" name="doc_organ" required>
+                            <option value="">Выберите орган...</option>
+                            {% for organ in organs %}
+                                <option value="{{ organ }}">{{ organ }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tip_prava" class="form-label">Тип права <span class="text-danger">*</span></label>
+                        <select class="form-select" id="tip_prava" name="tip_prava" required>
+                            <option value="">Выберите тип права...</option>
+                            {% for right in right_types %}
+                                <option value="{{ right }}">{{ right_types_ru[right] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="dolya" class="form-label">Доля в праве <span class="text-danger">*</span></label>
+                        <input type="number" step="0.01" class="form-control" id="dolya" name="dolya" min="0.01" max="1" required>
+                        <div class="form-text">От 0.01 до 1 (1 = 100%)</div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-warning">Зарегистрировать право</button>
+                        <a href="/" class="btn btn-secondary">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Валидация доли
+    document.getElementById('dolya').addEventListener('input', function(e) {
+        let val = parseFloat(e.target.value);
+        if (val > 1) e.target.value = 1;
+        if (val < 0.01) e.target.value = 0.01;
+    });
+</script>
+{% endblock %}

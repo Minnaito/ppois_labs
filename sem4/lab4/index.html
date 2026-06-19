@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY CADASTRE - Кадастровое агентство</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="MY CADASTRE" class="logo-img">
+                <span class="logo-text">MY CADASTRE</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="/">Главная</a>
+                <a href="/owners">Владельцы</a>
+                <a href="/objects">Объекты</a>
+                <a href="/rights">Регистрация прав</a>
+                <a href="/extract">Выписка</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Кадастровое агентство</h1>
+                <p>Регистрация прав, кадастровый учет, оценка и адресация</p>
+                <a href="#services" class="btn-primary">Перейти к услугам</a>
+            </div>
+            <div class="hero-image"></div>
+        </section>
+
+        <section class="services" id="services">
+            <h2>Предоставляемые услуги</h2>
+            <div class="services-grid">
+                <div class="service-card people">
+                    <h3>Управление владельцами</h3>
+                    <p>Добавление, просмотр и управление реестром владельцев недвижимости</p>
+                    <a href="/owners" class="btn-service">Перейти →</a>
+                </div>
+                <div class="service-card object">
+                    <h3>Управление объектами</h3>
+                    <p>Земельные участки, здания, кадастровые номера и техучёт</p>
+                    <a href="/objects" class="btn-service">Перейти →</a>
+                </div>
+                <div class="service-card document">
+                    <h3>Документооборот</h3>
+                    <p>Регистрация прав собственности и получение выписок из ЕГРН</p>
+                    <a href="/rights" class="btn-service">Перейти →</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 MY CADASTRE — Кадастровое агентство</p>
+        <p>Регистрация прав, кадастровый учет, оценка и адресация</p>
+    </footer>
+</body>
+</html>

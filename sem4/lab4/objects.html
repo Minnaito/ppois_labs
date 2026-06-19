@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY CADASTRE - Объекты</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="MY CADASTRE" class="logo-img">
+                <span class="logo-text">MY CADASTRE</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="/">Главная</a>
+                <a href="/owners">Владельцы</a>
+                <a href="/objects">Объекты</a>
+                <a href="/rights">Регистрация прав</a>
+                <a href="/extract">Выписка</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="objects-banner">
+        <div class="banner-content">
+            <h1>Управление объектами</h1>
+            <p>Земельные участки, здания, кадастровые номера и технический учёт</p>
+        </div>
+    </div>
+
+    <main class="objects-main">
+        <div class="objects-container">
+            <div class="content-card">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="flash-message flash-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <div style="display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap;">
+                    <a href="/object/create/land" class="btn-add">
+                        + Земельный участок
+                    </a>
+                    <a href="/object/create/building" class="btn-add">
+                       + Здание
+                    </a>
+                </div>
+
+                {% if objects and objects|length > 0 %}
+                    {% for item in objects %}
+                    <div class="object-card">
+                        <h3>
+                            {% if item.type == 'Zdanie' %}
+                                <img src="{{ url_for('static', filename='images/icon-building.png') }}" alt="Здание" class="object-icon">
+                                Здание
+                            {% else %}
+                                <img src="{{ url_for('static', filename='images/icon-land.png') }}" alt="Земельный участок" class="object-icon">
+                                Земельный участок
+                            {% endif %}
+                        </h3>
+
+                        <div class="object-info">
+                            <p><strong>Адрес:</strong> {{ item.obj.adres }}</p>
+                            <p><strong>Площадь:</strong> {{ item.obj.ploshchad }} м²</p>
+
+                            {% if item.type == 'Zdanie' %}
+                                <p><strong>Этажей:</strong> {{ item.obj.kolichestvo_etazhej }}</p>
+                                <p><strong>Материал стен:</strong> {{ item.obj.material_sten }}</p>
+                                {% if item.obj.naznachenie %}
+                                    <p><strong>Назначение:</strong> {{ item.obj.naznachenie }}</p>
+                                {% endif %}
+                            {% else %}
+                                <p><strong>Категория:</strong> {{ item.obj.kategoriya_zemel }}</p>
+                                <p><strong>Вид использования:</strong> {{ item.obj.vid_razreshonnogo_ispolzovaniya }}</p>
+                            {% endif %}
+
+                            <p><strong>Кадастровый номер:</strong>
+                                {% if item.obj.kadastrovyj_nomer %}
+                                    <strong style="color: #2e7d32;">{{ item.obj.kadastrovyj_nomer.polnoe_znachenie }}</strong>
+                                {% else %}
+                                    <span style="color: #999;">не присвоен</span>
+                                {% endif %}
+                            </p>
+                        </div>
+
+                        <div class="card-actions">
+                            {% if not item.obj.kadastrovyj_nomer %}
+                                <form method="POST" action="/cadastral/assign/{{ item.obj.uid }}" style="display: inline;">
+                                    <button type="submit" class="btn-card">Присвоить номер</button>
+                                </form>
+                            {% endif %}
+                            <a href="/technical/accounting/{{ item.obj.uid }}" class="btn-card">Технический учёт</a>
+                            <form method="POST" action="/document/update/{{ item.obj.uid }}" style="display: inline;">
+                                <button type="submit" class="btn-card">Обновить документацию</button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <p class="objects-count">Всего объектов: {{ objects|length }}</p>
+                {% else %}
+                    <div class="empty-state">
+                        <p>В системе пока нет зарегистрированных объектов.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 MY CADASTRE — Кадастровое агентство</p>
+        <p>Регистрация прав, кадастровый учет, оценка и адресация</p>
+    </footer>
+</body>
+</html>
