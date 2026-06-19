@@ -39,7 +39,6 @@ class Menu:
         self.update_option_rects()
 
     def update_option_rects(self):
-        """Обновление прямоугольников для кликов по пунктам меню."""
         self.option_rects = []
         for i, option in enumerate(self.options):
             text = self.small_font.render(option, True, WHITE)
