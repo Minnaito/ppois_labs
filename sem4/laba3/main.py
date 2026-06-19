@@ -4,7 +4,6 @@ from menu import Menu
 
 
 def main():
-    """Главная функция запуска игры."""
     pygame.init()
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
