@@ -137,7 +137,7 @@
 ### Скриншоты
 
 ![Меню](images/2.png)
-
+*Меню игры*
 ![3](images/3.png)
 ![4](images/4.png)
 ![5](images/5.png)
